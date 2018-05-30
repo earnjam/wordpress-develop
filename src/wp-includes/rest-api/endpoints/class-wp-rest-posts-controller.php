@@ -138,6 +138,20 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit posts in this post type.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
+		if ( $request['per_page'] < 0 ) {
+			$can_unbounded_query = false;
+			$types               = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+			foreach ( $types as $type ) {
+				if ( current_user_can( $type->cap->edit_posts ) ) {
+					$can_unbounded_query = true;
+					break;
+				}
+			}
+			if ( $request['per_page'] < 0 && ! $can_unbounded_query ) {
+				return new WP_Error( 'rest_forbidden_unbounded', __( 'Sorry, you are not allowed make unbounded queries.' ), array( 'status' => rest_authorization_required_code() ) );
+			}
+		}
+
 		return true;
 	}
 
@@ -150,6 +164,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
+
+		if ( isset( $request['per_page'] ) && 0 == $request['per_page'] ) {
+			return new WP_Error( 'rest_invalid_param', __( 'Invalid per_page value.' ), array( 'status' => 400 ) );
+		}
 
 		// Ensure a search string is set in case the orderby is set to 'relevance'.
 		if ( ! empty( $request['orderby'] ) && 'relevance' === $request['orderby'] && empty( $request['search'] ) ) {
@@ -327,7 +345,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$total_posts = $count_query->found_posts;
 		}
 
-		$max_pages = ceil( $total_posts / (int) $posts_query->query_vars['posts_per_page'] );
+		$per_page = (int) $posts_query->query_vars['posts_per_page'];
+		$max_pages = ( $per_page > 0 ) ? ceil( $total_posts / $per_page ) : 1;
 
 		if ( $page > $max_pages && $total_posts > 0 ) {
 			return new WP_Error( 'rest_post_invalid_page_number', __( 'The page number requested is larger than the number of pages available.' ), array( 'status' => 400 ) );

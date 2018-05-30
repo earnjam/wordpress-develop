@@ -192,16 +192,23 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_forbidden_orderby', __( 'Sorry, you are not allowed to order users by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		if ( 'authors' === $request['who'] ) {
-			$can_view = false;
-			$types = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+		if ( $request['per_page'] < 0 || 'authors' === $request['who'] ) {
+			$can_unbounded_query = false;
+			$can_view            = false;
+			$types               = get_post_types( array( 'show_in_rest' => true ), 'objects' );
 			foreach ( $types as $type ) {
-				if ( post_type_supports( $type->name, 'author' )
-					&& current_user_can( $type->cap->edit_posts ) ) {
-					$can_view = true;
+				if ( current_user_can( $type->cap->edit_posts ) ) {
+					$can_unbounded_query = true;
+					if ( post_type_supports( $type->name, 'author' ) ) {
+						$can_view = true;
+						break;
+					}
 				}
 			}
-			if ( ! $can_view ) {
+			if ( $request['per_page'] < 0 && ! $can_unbounded_query ) {
+				return new WP_Error( 'rest_forbidden_unbounded', __( 'Sorry, you are not allowed make unbounded queries.' ), array( 'status' => rest_authorization_required_code() ) );
+			}
+			if ( 'authors' === $request['who'] && ! $can_view ) {
 				return new WP_Error( 'rest_forbidden_who', __( 'Sorry, you are not allowed to query users by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 		}
@@ -218,6 +225,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
+
+		if ( isset( $request['per_page'] ) && 0 == $request['per_page'] ) {
+			return new WP_Error( 'rest_invalid_param', __( 'Invalid per_page value.' ), array( 'status' => 400 ) );
+		}
 
 		// Retrieve the list of registered collection query parameters.
 		$registered = $this->get_collection_params();
@@ -303,8 +314,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $users );
 
 		// Store pagination values for headers then unset for count query.
-		$per_page = (int) $prepared_args['number'];
-		$page     = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
+		$per_page = ( (int) $prepared_args['number']  );
+		if ( $per_page ) {
+			$page = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
+		} else {
+			$page = 1;
+		}
 
 		$prepared_args['fields'] = 'ID';
 
@@ -319,7 +334,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$response->header( 'X-WP-Total', (int) $total_users );
 
-		$max_pages = ceil( $total_users / $per_page );
+		$max_pages = ( $per_page > 0 ) ? ceil( $total_users / $per_page ) : 1;
 
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 

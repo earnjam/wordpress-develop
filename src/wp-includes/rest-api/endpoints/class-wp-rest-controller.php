@@ -318,9 +318,7 @@ abstract class WP_REST_Controller {
 				'description'       => __( 'Maximum number of items to be returned in result set.' ),
 				'type'              => 'integer',
 				'default'           => 10,
-				'minimum'           => 1,
-				'maximum'           => 100,
-				'sanitize_callback' => 'absint',
+				'minimum'           => -1,
 				'validate_callback' => 'rest_validate_request_arg',
 			),
 			'search'   => array(

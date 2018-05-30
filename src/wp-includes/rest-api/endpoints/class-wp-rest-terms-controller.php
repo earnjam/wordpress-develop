@@ -139,13 +139,31 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return bool|WP_Error True if the request has read access, otherwise false or WP_Error object.
 	 */
 	public function get_items_permissions_check( $request ) {
+
 		$tax_obj = get_taxonomy( $this->taxonomy );
+
 		if ( ! $tax_obj || ! $this->check_is_taxonomy_allowed( $this->taxonomy ) ) {
 			return false;
 		}
+
 		if ( 'edit' === $request['context'] && ! current_user_can( $tax_obj->cap->edit_terms ) ) {
 			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit terms in this taxonomy.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
+
+		if ( $request['per_page'] < 0 ) {
+			$can_unbounded_query = false;
+			$types               = get_post_types( array( 'show_in_rest' => true ), 'objects' );
+			foreach ( $types as $type ) {
+				if ( current_user_can( $type->cap->edit_posts ) ) {
+					$can_unbounded_query = true;
+					break;
+				}
+			}
+			if ( ! $can_unbounded_query ) {
+				return new WP_Error( 'rest_forbidden_unbounded', __( 'Sorry, you are not allowed make unbounded queries.' ), array( 'status' => rest_authorization_required_code() ) );
+			}
+		}
+
 		return true;
 	}
 
@@ -158,6 +176,10 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
+
+		if ( isset( $request['per_page'] ) && 0 == $request['per_page'] ) {
+			return new WP_Error( 'rest_invalid_param', __( 'Invalid per_page value.' ), array( 'status' => 400 ) );
+		}
 
 		// Retrieve the list of registered collection query parameters.
 		$registered = $this->get_collection_params();
@@ -248,6 +270,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			$query_result = get_terms( $this->taxonomy, $prepared_args );
 		}
 
+		// WP Term Query uses 0 for "all". Need to convert if a -1 is passed for per_page
+		$prepared_args['number'] = ( $prepared_args['number'] < 1 ) ? 0 : $prepared_args['number'];
+
 		$count_args = $prepared_args;
 
 		unset( $count_args['number'], $count_args['offset'] );
@@ -270,12 +295,14 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		// Store pagination values for headers.
 		$per_page = (int) $prepared_args['number'];
-		$page     = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
+		if ( $per_page > 0 ) {
+			$page     = ceil( ( ( (int) $prepared_args['offset'] ) / $per_page ) + 1 );
+		} else {
+			$page = 1;
+		}
+		$max_pages = ( $per_page > 0 ) ? ceil( $total_terms / $per_page ) : 1;
 
 		$response->header( 'X-WP-Total', (int) $total_terms );
-
-		$max_pages = ceil( $total_terms / $per_page );
-
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
 		$base = add_query_arg( $request->get_query_params(), rest_url( $this->namespace . '/' . $this->rest_base ) );
