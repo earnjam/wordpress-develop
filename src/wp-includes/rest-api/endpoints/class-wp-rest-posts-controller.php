@@ -318,8 +318,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 		}
 
-		wp_die(print_r($query_args['tax_query']));
-
 		$posts_query  = new WP_Query();
 		$query_result = $posts_query->query( $query_args );
 
