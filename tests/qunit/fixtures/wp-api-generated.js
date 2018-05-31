@@ -322,6 +322,15 @@ mockedApiResponse.Schema = {
                                 "type": "string"
                             }
                         },
+                        "relation": {
+                            "required": false,
+                            "enum": [
+                                "AND",
+                                "OR"
+                            ],
+                            "description": "Limit result set based on relationship between multiple taxonomy terms.",
+                            "type": "string"
+                        },
                         "categories": {
                             "required": false,
                             "default": [],
