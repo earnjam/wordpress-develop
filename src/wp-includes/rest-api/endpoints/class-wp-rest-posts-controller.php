@@ -272,22 +272,47 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$tax_exclude = $base . '_exclude';
 
 			if ( ! empty( $request[ $base ] ) ) {
-				$query_args['tax_query'][] = array(
-					'taxonomy'         => $taxonomy->name,
-					'field'            => 'term_id',
-					'terms'            => $request[ $base ],
-					'include_children' => false,
-				);
+				if ( is_array( $request[ $base ] ) && 'AND' === $request['relation'] ) {
+					$query_args['tax_query'] = array( 'relation' => 'AND' );
+					foreach ( $request[ $base ] as $term_id ) {
+						$query_args['tax_query'][] = array(
+							'taxonomy'         => $taxonomy->name,
+							'field'            => 'term_id',
+							'terms'            => $term_id,
+							'include_children' => false,
+						);
+					}
+				} else {
+					$query_args['tax_query'][] = array(
+						'taxonomy'         => $taxonomy->name,
+						'field'            => 'term_id',
+						'terms'            => $request[ $base ],
+						'include_children' => false,
+					);
+				}
 			}
 
 			if ( ! empty( $request[ $tax_exclude ] ) ) {
-				$query_args['tax_query'][] = array(
-					'taxonomy'         => $taxonomy->name,
-					'field'            => 'term_id',
-					'terms'            => $request[ $tax_exclude ],
-					'include_children' => false,
-					'operator'         => 'NOT IN',
-				);
+				if ( is_array( $request[ $tax_exclude ] ) && 'AND' === $request['relation'] ) {
+					$query_args['tax_query'] = array( 'relation' => 'AND' );
+					foreach ( $request[ $tax_exclude ] as $term_id ) {
+						$query_args['tax_query'][] = array(
+							'taxonomy'         => $taxonomy->name,
+							'field'            => 'term_id',
+							'terms'            => $term_id,
+							'include_children' => false,
+							'operator'         => 'NOT IN',
+						);
+					}
+				} else {
+					$query_args['tax_query'][] = array(
+						'taxonomy'         => $taxonomy->name,
+						'field'            => 'term_id',
+						'terms'            => $request[ $tax_exclude ],
+						'include_children' => false,
+						'operator'         => 'NOT IN',
+					);
+				}
 			}
 		}
 
@@ -2216,6 +2241,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		);
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
+
+		if ( ! empty( $taxonomies ) ) {
+			$query_params['relation'] = array(
+				'description' => __( 'Limit result set based on relationship between multiple taxonomy terms.' ),
+				'type'        => 'string',
+				'enum'        => array( 'AND', 'OR' ),
+			);
+		}
 
 		foreach ( $taxonomies as $taxonomy ) {
 			$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
