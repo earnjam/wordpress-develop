@@ -155,6 +155,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 				'orderby',
 				'page',
 				'per_page',
+				'relation',
 				'search',
 				'slug',
 				'status',
@@ -863,6 +864,26 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 		$data     = $response->get_data();
 		$this->assertCount( 1, $data );
 		$this->assertEquals( $id1, $data[0]['id'] );
+	}
+
+	public function test_get_items_tags_relation_query() {
+		$id1 = self::$post_id;
+		$id2 = $this->factory->post->create( array( 'post_status' => 'publish' ) );
+		$id3 = $this->factory->post->create( array( 'post_status' => 'publish' ) );
+		$tag1 = wp_insert_term( 'Tag1', 'post_tag' );
+		$tag2 = wp_insert_term( 'Tag2', 'post_tag' );
+
+		wp_set_object_terms( $id1, array( $tag1['term_id'] ), 'post_tag' );
+		wp_set_object_terms( $id2, array( $tag2['term_id'] ), 'post_tag' );
+		wp_set_object_terms( $id3, array( $tag1['term_id'], $tag2['term_id'] ), 'post_tag' );
+		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
+		$request->set_param( 'tags', array( $tag1['term_id'], $tag2['term_id'] ) );
+		$request->set_param( 'relation', 'AND' );
+
+		$response = rest_get_server()->dispatch( $request );
+		$data     = $response->get_data();
+		$this->assertCount( 1, $data );
+		$this->assertEquals( $id3, $data['0']['id'] );
 	}
 
 	public function test_get_items_tags_exclude_query() {
