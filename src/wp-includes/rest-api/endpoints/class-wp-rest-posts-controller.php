@@ -281,7 +281,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					'taxonomy'         => $taxonomy->name,
 					'field'            => 'term_id',
 					'terms'            => $request[ $base ],
-					'include_children' => false
+					'include_children' => false,
 				);
 			}
 			if ( ! empty( $request[ $tax_exclude ] ) ) {
