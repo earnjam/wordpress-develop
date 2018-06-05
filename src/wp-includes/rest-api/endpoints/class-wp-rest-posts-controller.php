@@ -274,47 +274,33 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		foreach ( $taxonomies as $taxonomy ) {
 			$base        = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 			$tax_exclude = $base . '_exclude';
+			$tax_strict  = $base . '_strict';
 
 			if ( ! empty( $request[ $base ] ) ) {
-				if ( is_array( $request[ $base ] ) && 'AND' === $request['relation'] ) {
-					foreach ( $request[ $base ] as $term_id ) {
-						$query_args['tax_query'][] = array(
-							'taxonomy'         => $taxonomy->name,
-							'field'            => 'term_id',
-							'terms'            => $term_id,
-							'include_children' => false,
-						);
-					}
-				} else {
-					$query_args['tax_query'][] = array(
-						'taxonomy'         => $taxonomy->name,
-						'field'            => 'term_id',
-						'terms'            => $request[ $base ],
-						'include_children' => false,
-					);
-				}
+				$query_args['tax_query'][] = array(
+					'taxonomy'         => $taxonomy->name,
+					'field'            => 'term_id',
+					'terms'            => $request[ $base ],
+					'include_children' => false
+				);
 			}
-
 			if ( ! empty( $request[ $tax_exclude ] ) ) {
-				if ( is_array( $request[ $tax_exclude ] ) && 'AND' === $request['relation'] ) {
-					foreach ( $request[ $tax_exclude ] as $term_id ) {
-						$query_args['tax_query'][] = array(
-							'taxonomy'         => $taxonomy->name,
-							'field'            => 'term_id',
-							'terms'            => $term_id,
-							'include_children' => false,
-							'operator'         => 'NOT IN',
-						);
-					}
-				} else {
-					$query_args['tax_query'][] = array(
-						'taxonomy'         => $taxonomy->name,
-						'field'            => 'term_id',
-						'terms'            => $request[ $tax_exclude ],
-						'include_children' => false,
-						'operator'         => 'NOT IN',
-					);
-				}
+				$query_args['tax_query'][] = array(
+					'taxonomy'         => $taxonomy->name,
+					'field'            => 'term_id',
+					'terms'            => $request[ $tax_exclude ],
+					'include_children' => false,
+					'operator'         => 'NOT IN',
+				);
+			}
+			if ( ! empty( $request[ $tax_strict ] ) ) {
+				$query_args['tax_query'][] = array(
+					'taxonomy'         => $taxonomy->name,
+					'field'            => 'term_id',
+					'terms'            => $request[ $tax_strict ],
+					'include_children' => false,
+					'operator'         => 'AND',
+				);
 			}
 		}
 
@@ -2427,7 +2413,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( ! empty( $taxonomies ) ) {
 			$query_params['relation'] = array(
-				'description' => __( 'Limit result set based on relationship between multiple taxonomy terms.' ),
+				'description' => __( 'Limit result set based on relationship between multiple taxonomies.' ),
 				'type'        => 'string',
 				'enum'        => array( 'AND', 'OR' ),
 			);
@@ -2449,6 +2435,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$query_params[ $base . '_exclude' ] = array(
 				/* translators: %s: taxonomy name */
 				'description' => sprintf( __( 'Limit result set to all items except those that have the specified term assigned in the %s taxonomy.' ), $base ),
+				'type'        => 'array',
+				'items'       => array(
+					'type' => 'integer',
+				),
+				'default'     => array(),
+			);
+
+			$query_params[ $base . '_strict' ] = array(
+				/* translators: %s: taxonomy name */
+				'description' => sprintf( __( 'Limit result set to all items that have all the specified terms assigned in the %s taxonomy.' ), $base ),
 				'type'        => 'array',
 				'items'       => array(
 					'type' => 'integer',
