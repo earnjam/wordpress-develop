@@ -284,6 +284,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					'include_children' => false,
 				);
 			}
+
 			if ( ! empty( $request[ $tax_exclude ] ) ) {
 				$query_args['tax_query'][] = array(
 					'taxonomy'         => $taxonomy->name,
@@ -293,6 +294,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					'operator'         => 'NOT IN',
 				);
 			}
+
 			if ( ! empty( $request[ $tax_strict ] ) ) {
 				$query_args['tax_query'][] = array(
 					'taxonomy'         => $taxonomy->name,
