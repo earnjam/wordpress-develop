@@ -328,7 +328,7 @@ mockedApiResponse.Schema = {
                                 "AND",
                                 "OR"
                             ],
-                            "description": "Limit result set based on relationship between multiple taxonomy terms.",
+                            "description": "Limit result set based on relationship between multiple taxonomies.",
                             "type": "string"
                         },
                         "categories": {
@@ -349,6 +349,15 @@ mockedApiResponse.Schema = {
                                 "type": "integer"
                             }
                         },
+                        "categories_strict": {
+                            "required": false,
+                            "default": [],
+                            "description": "Limit result set to all items that have all the specified terms assigned in the categories taxonomy.",
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
                         "tags": {
                             "required": false,
                             "default": [],
@@ -362,6 +371,15 @@ mockedApiResponse.Schema = {
                             "required": false,
                             "default": [],
                             "description": "Limit result set to all items except those that have the specified term assigned in the tags taxonomy.",
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
+                        "tags_strict": {
+                            "required": false,
+                            "default": [],
+                            "description": "Limit result set to all items that have all the specified terms assigned in the tags taxonomy.",
                             "type": "array",
                             "items": {
                                 "type": "integer"
