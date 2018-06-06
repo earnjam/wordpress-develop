@@ -349,7 +349,7 @@ mockedApiResponse.Schema = {
                                 "type": "integer"
                             }
                         },
-                        "categories_strict": {
+                        "categories_and": {
                             "required": false,
                             "default": [],
                             "description": "Limit result set to all items that have all the specified terms assigned in the categories taxonomy.",
@@ -376,7 +376,7 @@ mockedApiResponse.Schema = {
                                 "type": "integer"
                             }
                         },
-                        "tags_strict": {
+                        "tags_and": {
                             "required": false,
                             "default": [],
                             "description": "Limit result set to all items that have all the specified terms assigned in the tags taxonomy.",

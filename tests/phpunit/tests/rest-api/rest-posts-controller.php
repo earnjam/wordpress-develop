@@ -146,8 +146,8 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 				'author_exclude',
 				'before',
 				'categories',
-				'categories_exclude',
 				'categories_and',
+				'categories_exclude',
 				'context',
 				'exclude',
 				'include',
@@ -162,8 +162,8 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 				'status',
 				'sticky',
 				'tags',
-				'tags_exclude',
 				'tags_and',
+				'tags_exclude',
 			), $keys
 		);
 	}
