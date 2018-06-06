@@ -147,7 +147,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 				'before',
 				'categories',
 				'categories_exclude',
-				'categories_strict',
+				'categories_and',
 				'context',
 				'exclude',
 				'include',
@@ -163,7 +163,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 				'sticky',
 				'tags',
 				'tags_exclude',
-				'tags_strict',
+				'tags_and',
 			), $keys
 		);
 	}
@@ -868,7 +868,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 		$this->assertEquals( $id1, $data[0]['id'] );
 	}
 
-	public function test_get_items_tags_strict_query() {
+	public function test_get_items_tags_and_query() {
 		$id1 = self::$post_id;
 		$id2 = $this->factory->post->create( array( 'post_status' => 'publish' ) );
 		$id3 = $this->factory->post->create( array( 'post_status' => 'publish' ) );
@@ -879,7 +879,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 		wp_set_object_terms( $id2, array( $tag2['term_id'] ), 'post_tag' );
 		wp_set_object_terms( $id3, array( $tag1['term_id'], $tag2['term_id'] ), 'post_tag' );
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'tags_strict', array( $tag1['term_id'], $tag2['term_id'] ) );
+		$request->set_param( 'tags_and', array( $tag1['term_id'], $tag2['term_id'] ) );
 
 		$response = rest_get_server()->dispatch( $request );
 		$data     = $response->get_data();
@@ -1005,7 +1005,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 		$this->assertEquals( $id1, $data[2]['id'] );
 	}
 
-	public function test_get_items_tags_strict_and_categories_query() {
+	public function test_get_items_tags_and_and_categories_query() {
 		$id1      = self::$post_id;
 		$id2      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
 		$id3      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
@@ -1021,7 +1021,7 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 		wp_set_object_terms( $id3, array( $category['term_id'] ), 'category' );
 
 		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'tags_strict', array( $tag1['term_id'], $tag2['term_id'] ) );
+		$request->set_param( 'tags_and', array( $tag1['term_id'], $tag2['term_id'] ) );
 		$request->set_param( 'categories', array( $category['term_id'] ) );
 
 		$response = rest_get_server()->dispatch( $request );

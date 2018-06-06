@@ -274,7 +274,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		foreach ( $taxonomies as $taxonomy ) {
 			$base        = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 			$tax_exclude = $base . '_exclude';
-			$tax_strict  = $base . '_strict';
+			$tax_and     = $base . '_and';
 
 			if ( ! empty( $request[ $base ] ) ) {
 				$query_args['tax_query'][] = array(
@@ -295,11 +295,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				);
 			}
 
-			if ( ! empty( $request[ $tax_strict ] ) ) {
+			if ( ! empty( $request[ $tax_and ] ) ) {
 				$query_args['tax_query'][] = array(
 					'taxonomy'         => $taxonomy->name,
 					'field'            => 'term_id',
-					'terms'            => $request[ $tax_strict ],
+					'terms'            => $request[ $tax_and ],
 					'include_children' => false,
 					'operator'         => 'AND',
 				);
@@ -2444,7 +2444,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'default'     => array(),
 			);
 
-			$query_params[ $base . '_strict' ] = array(
+			$query_params[ $base . '_and' ] = array(
 				/* translators: %s: taxonomy name */
 				'description' => sprintf( __( 'Limit result set to all items that have all the specified terms assigned in the %s taxonomy.' ), $base ),
 				'type'        => 'array',
