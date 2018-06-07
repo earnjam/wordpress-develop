@@ -156,7 +156,6 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 				'orderby',
 				'page',
 				'per_page',
-				'relation',
 				'search',
 				'slug',
 				'status',
@@ -930,29 +929,6 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
 	}
 
-	public function test_get_items_tags_or_categories_query() {
-		$id1      = self::$post_id;
-		$id2      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		$id3      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		$id4      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		$tag      = wp_insert_term( 'My Tag', 'post_tag' );
-		$category = wp_insert_term( 'My Category', 'category' );
-
-		wp_set_object_terms( $id1, array( $tag['term_id'] ), 'post_tag' );
-		wp_set_object_terms( $id2, array( $category['term_id'] ), 'category' );
-
-		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'relation', 'OR' );
-		$request->set_param( 'tags', array( $tag['term_id'] ) );
-		$request->set_param( 'categories', array( $category['term_id'] ) );
-
-		$response = rest_get_server()->dispatch( $request );
-		$data     = $response->get_data();
-		$this->assertCount( 2, $data );
-		$this->assertEquals( $id2, $data[0]['id'] );
-		$this->assertEquals( $id1, $data[1]['id'] );
-	}
-
 	public function test_get_items_tags_and_categories_exclude_query() {
 		$id1      = self::$post_id;
 		$id2      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
@@ -977,32 +953,6 @@ class WP_Test_REST_Posts_Controller extends WP_Test_REST_Post_Type_Controller_Te
 		$request->set_param( 'tags_exclude', array( 'my-tag' ) );
 		$response = rest_get_server()->dispatch( $request );
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
-	}
-
-	public function test_get_items_tags_or_categories_exclude_query() {
-		$id1      = self::$post_id;
-		$id2      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		$id3      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		$id4      = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		$tag      = wp_insert_term( 'My Tag', 'post_tag' );
-		$category = wp_insert_term( 'My Category', 'category' );
-
-		wp_set_object_terms( $id1, array( $tag['term_id'] ), 'post_tag' );
-		wp_set_object_terms( $id2, array( $tag['term_id'] ), 'post_tag' );
-		wp_set_object_terms( $id2, array( $category['term_id'] ), 'category' );
-		wp_set_object_terms( $id3, array( $category['term_id'] ), 'category' );
-
-		$request = new WP_REST_Request( 'GET', '/wp/v2/posts' );
-		$request->set_param( 'tags', array( $tag['term_id'] ) );
-		$request->set_param( 'categories_exclude', array( $category['term_id'] ) );
-		$request->set_param( 'relation', 'OR' );
-
-		$response = rest_get_server()->dispatch( $request );
-		$data     = $response->get_data();
-		$this->assertCount( 3, $data );
-		$this->assertEquals( $id2, $data[0]['id'] );
-		$this->assertEquals( $id4, $data[1]['id'] );
-		$this->assertEquals( $id1, $data[2]['id'] );
 	}
 
 	public function test_get_items_tags_and_and_categories_query() {
