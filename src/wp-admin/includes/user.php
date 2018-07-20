@@ -1175,7 +1175,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 	public function process_bulk_action() {
 		$action      = $this->current_action();
 		$request_ids = isset( $_REQUEST['request_id'] ) ? wp_parse_id_list( wp_unslash( $_REQUEST['request_id'] ) ) : array();
-		
+
 		$count       = 0;
 
 		if ( $request_ids ) {
@@ -1310,7 +1310,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 		echo esc_html( $status_object->label );
 
 		if ( $timestamp ) {
-			echo ' (' . $this->get_timestamp_as_date( $timestamp ) . ')';
+			echo '<br />' . $this->get_timestamp_as_date( $timestamp );
 		}
 
 		echo '</span>';
@@ -1329,14 +1329,7 @@ abstract class WP_Privacy_Requests_Table extends WP_List_Table {
 			return '';
 		}
 
-		$time_diff = current_time( 'timestamp', true ) - $timestamp;
-
-		if ( $time_diff >= 0 && $time_diff < DAY_IN_SECONDS ) {
-			/* translators: human readable timestamp */
-			return sprintf( __( '%s ago' ), human_time_diff( $timestamp ) );
-		}
-
-		return date_i18n( get_option( 'date_format' ), $timestamp );
+		return date_i18n( 'Y/m/d g:i:s a', $timestamp );
 	}
 
 	/**
