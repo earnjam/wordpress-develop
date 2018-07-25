@@ -241,7 +241,7 @@ class Tests_User_WpSendUserRequest extends WP_UnitTestCase {
 		remove_filter( 'user_request_action_email_content', array( $this, 'modify_email_content' ), 10 );
 
 		$this->assertTrue( $email_sent );
-		$this->assertContains( 'Custom Content Containing Email:' . $email, $mailer->get_sent()->body );
+		$this->assertContains( 'Custom Email Content.', $mailer->get_sent()->body );
 	}
 
 	/**
