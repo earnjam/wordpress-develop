@@ -3051,6 +3051,9 @@ All at ###SITENAME###
 	$content = str_replace( '###MANAGE_URL###', esc_url_raw( $email_data['manage_url'] ), $content );
 	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
 
+	// Localize message content for user; fallback to site default for visitors.
+	$switched_locales = switch_to_locale( get_user_locale( $request_data->user_id ) );
+
 	$subject = sprintf(
 		/* translators: 1: Site name. 2: Name of the confirmed action. */
 		__( '[%1$s] Action Confirmed: %2$s' ),
@@ -3221,6 +3224,10 @@ All at ###SITENAME###
 	if ( $email_sent ) {
 		update_post_meta( $request_id, '_wp_user_notified', true );
 	}
+
+	if ( $switched_locales ) {
+		restore_current_locale();
+	}
 }
 
 /**
@@ -3367,6 +3374,9 @@ function wp_send_user_request( $request_id ) {
 		return new WP_Error( 'user_request_error', __( 'Invalid request.' ) );
 	}
 
+	// Localize message content for user; fallback to site default for visitors.
+	$switched_locales = switch_to_locale( get_user_locale( $request->user_id ) );
+
 	$email_data = array(
 		'request'     => $request,
 		'email'       => $request->email,
@@ -3454,7 +3464,13 @@ All at ###SITENAME###
 	 */
 	$subject = apply_filters( 'user_request_action_email_subject', $subject, $email_data['sitename'], $email_data );
 
-	return wp_mail( $email_data['email'], $subject, $content );
+	$email_sent = wp_mail( $email_data['email'], $subject, $content );
+
+	if ( $switched_locales ) {
+		restore_current_locale();
+	}
+
+	return $email_sent;
 }
 
 /**
