@@ -3523,7 +3523,7 @@ function wp_validate_user_request_key( $request_id, $key ) {
 	$request    = wp_get_user_request_data( $request_id );
 
 	if ( ! $request ) {
-		return new WP_Error( 'user_request_error', __( 'Invalid request.' ) );
+		return new WP_Error( 'invalid_request', __( 'Invalid request.' ) );
 	}
 
 	if ( ! in_array( $request->status, array( 'request-pending', 'request-failed' ), true ) ) {
