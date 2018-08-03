@@ -3051,9 +3051,6 @@ All at ###SITENAME###
 	$content = str_replace( '###MANAGE_URL###', esc_url_raw( $email_data['manage_url'] ), $content );
 	$content = str_replace( '###SITEURL###', esc_url_raw( $email_data['siteurl'] ), $content );
 
-	// Localize message content for user; fallback to site default for visitors.
-	$switched_locales = switch_to_locale( get_user_locale( $request_data->user_id ) );
-
 	$subject = sprintf(
 		/* translators: 1: Site name. 2: Name of the confirmed action. */
 		__( '[%1$s] Action Confirmed: %2$s' ),
@@ -3224,10 +3221,6 @@ All at ###SITENAME###
 	if ( $email_sent ) {
 		update_post_meta( $request_id, '_wp_user_notified', true );
 	}
-
-	if ( $switched_locales ) {
-		restore_current_locale();
-	}
 }
 
 /**
@@ -3364,18 +3357,24 @@ function wp_user_request_action_description( $action_name ) {
  * @since 4.9.6
  *
  * @param string $request_id ID of the request created via wp_create_user_request().
- * @return WP_Error|bool Will return true/false based on the success of sending the email, or a WP_Error object.
+ * @return bool|WP_Error true on success or `WP_Error` on failure.
  */
 function wp_send_user_request( $request_id ) {
 	$request_id = absint( $request_id );
 	$request    = wp_get_user_request_data( $request_id );
 
 	if ( ! $request ) {
-		return new WP_Error( 'user_request_error', __( 'Invalid request.' ) );
+		return new WP_Error( 'invalid_request', __( 'Invalid user request.' ) );
 	}
 
 	// Localize message content for user; fallback to site default for visitors.
-	$switched_locales = switch_to_locale( get_user_locale( $request->user_id ) );
+	if ( ! empty( $request->user_id ) ) {
+		$locale = get_user_locale( $request->user_id );
+	} else {
+		$locale = get_locale();
+	}
+
+	$switched_locale = switch_to_locale( $locale );
 
 	$email_data = array(
 		'request'     => $request,
@@ -3466,11 +3465,15 @@ All at ###SITENAME###
 
 	$email_sent = wp_mail( $email_data['email'], $subject, $content );
 
-	if ( $switched_locales ) {
+	if ( $switched_locale ) {
 		restore_current_locale();
 	}
 
-	return $email_sent;
+	if ( ! $email_sent ) {
+		return new WP_Error( 'privacy_email_error', __( 'Unable to send personal data export confirmation email.' ) );
+	}
+
+	return true;
 }
 
 /**
@@ -3607,7 +3610,6 @@ final class WP_User_Request {
 	 *
 	 * @var int
 	 */
-
 	public $user_id = 0;
 
 	/**
@@ -3682,7 +3684,7 @@ final class WP_User_Request {
 	 */
 	public function __construct( $post ) {
 		$this->ID                  = $post->ID;
-		$this->user_id             = $post->post_author;
+		$this->user_id             = (int) $post->post_author;
 		$this->email               = $post->post_title;
 		$this->action_name         = $post->post_name;
 		$this->status              = $post->post_status;
