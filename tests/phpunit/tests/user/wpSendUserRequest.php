@@ -23,6 +23,8 @@ class Tests_User_WpSendUserRequest extends WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+		unset( $GLOBALS['locale'] );
+		set_current_screen( 'dashboard' );
 		reset_phpmailer_instance();
 	}
 
