@@ -72,6 +72,14 @@
 			url: url
 		} );
 
+		// Emulate HTTP/1.0 requests
+		if ( options.method ) {
+			if ( [ 'PATCH', 'PUT', 'DELETE' ].indexOf( options.method.toUpperCase() ) >= 0 ) {
+				options.headers['X-HTTP-Method-Override'] = options.method;
+				options.method = 'POST';
+			}
+		}
+
 		delete options.path;
 		delete options.namespace;
 		delete options.endpoint;
