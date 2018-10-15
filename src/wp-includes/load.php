@@ -1164,14 +1164,22 @@ function wp_finalize_scraping_edited_file_errors( $scrape_key ) {
 }
 
 /**
- * Check whether current request is Content-Type: application/json
+ * Check whether current request is a JSON request, or is expecting a JSON response
  *
  * @since 5.0.0
  *
- * @return bool True if Content-Type header is application/json, false otherwise
+ * @return bool True if Accepts or Content-Type headers contain application/json, false otherwise
  */
 function wp_is_json_request() {
 
-	return ( isset( $_SERVER['CONTENT_TYPE'] ) && 'application/json' === $_SERVER['CONTENT_TYPE'] );
+	if ( ! empty( $_SERVER['HTTP_ACCEPT'] ) && strpos( $_SERVER['HTTP_ACCEPT'], 'application/json' ) !== false ) {
+		return true;
+	}
+
+	if ( ! empty( $_SERVER['CONTENT_TYPE'] ) && 'application/json' === $_SERVER['CONTENT_TYPE'] ) {
+		return true;
+	}
+
+	return false;
 
 }
