@@ -4853,3 +4853,40 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 
 	wp_send_json_success( $response );
 }
+
+function wp_ajax_health_check_site_status() {
+	check_ajax_referer( 'health-check-site-status' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error();
+	}
+
+	if ( ! class_exists( 'WP_Site_Health' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+	}
+
+	$site_health = new WP_Site_Health();
+
+	$function = sprintf(
+		'json_test_%s',
+		$_POST['feature']
+	);
+
+	if ( ! method_exists( $site_health, $function ) || ! is_callable( array( $site_health, $function ) ) ) {
+		return;
+	}
+
+	call_user_func( array( $site_health, $function ) );
+}
+
+function wp_ajax_health_check_site_status_result() {
+	check_ajax_referer( 'health-check-site-status-result' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error();
+	}
+
+	set_transient( 'health-check-site-status-result', wp_json_encode( $_POST['counts'] ) );
+
+	wp_send_json_success();
+}

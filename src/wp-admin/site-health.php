@@ -1,0 +1,115 @@
+<?php
+/**
+ * Tools Administration Screen.
+ *
+ * @package WordPress
+ * @subpackage Administration
+ */
+
+if ( isset( $_GET['tab'] ) && 'debug' === $_GET['tab'] ) {
+	require_once( dirname( __FILE__ ) . '/site-health-info.php' );
+	return;
+}
+
+/** WordPress Administration Bootstrap */
+require_once( dirname( __FILE__ ) . '/admin.php' );
+
+if ( ! current_user_can( 'manage_options' ) ) {
+	wp_die( __( 'Sorry, you do not have permission to access site health information.' ), '', array( 'reponse' => 401 ) );
+}
+
+wp_enqueue_style( 'site-health' );
+wp_enqueue_script( 'site-health' );
+
+if ( ! class_exists( 'WP_Site_Health' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+}
+
+add_filter( 'admin_body_class', array( 'WP_Site_Health', 'admin_body_class' ) );
+
+$health_check_site_status = new WP_Site_Health();
+
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
+?>
+
+<div class="wrap health-check-header">
+	<div class="title-section">
+		<h1>
+			<?php _ex( 'Site Health', 'Menu, Section and Page Title' ); ?>
+		</h1>
+
+		<div id="progressbar" class="loading" data-pct="0" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-valuetext="<?php esc_attr_e( 'Site tests are running, please wait a moment.' ); ?>">
+			<svg width="100%" height="100%" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+				<circle id="bar" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+			</svg>
+		</div>
+	</div>
+
+	<nav class="tabs-wrapper" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
+		<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="tab active" aria-current="true">
+			<?php esc_html_e( 'Status' ); ?>
+		</a>
+
+		<a href="<?php echo esc_url( admin_url( 'site-health.php?tab=debug' ) ); ?>" class="tab">
+			<?php esc_html_e( 'Info' ); ?>
+		</a>
+	</nav>
+
+	<div class="wp-clearfix"></div>
+</div>
+
+<div class="wrap health-check-body">
+	<div class="site-status-all-clear hide">
+		<p class="icon">
+			<span class="dashicons dashicons-yes"></span>
+		</p>
+
+		<p class="encouragement">
+			<?php esc_html_e( 'Great job!' ); ?>
+		</p>
+
+		<p>
+			<?php esc_html_e( 'Everything is running smoothly here.' ); ?>
+		</p>
+	</div>
+
+	<div class="site-status-has-issues">
+		<h2>
+			<?php esc_html_e( 'Site Health Status' ); ?>
+		</h2>
+
+		<div class="issues-wrapper" id="health-check-issues-critical">
+			<h3>
+				<span class="issue-count">0</span> <?php esc_html_e( 'Critical issues' ); ?>
+			</h3>
+
+			<dl id="health-check-site-status-critical" role="presentation" class="health-check-accordion issues"></dl>
+		</div>
+
+		<div class="issues-wrapper" id="health-check-issues-recommended">
+			<h3>
+				<span class="issue-count">0</span> <?php esc_html_e( 'Recommended improvements' ); ?>
+			</h3>
+
+			<dl id="health-check-site-status-recommended" role="presentation" class="health-check-accordion issues"></dl>
+		</div>
+	</div>
+
+	<div class="view-more">
+		<button type="button" class="button button-link site-health-view-passed" aria-expanded="false">
+			<?php esc_html_e( 'Show passed tests' ); ?>
+		</button>
+	</div>
+
+	<div class="issues-wrapper hidden" id="health-check-issues-good">
+		<h3>
+			<span class="issue-count">0</span> <?php esc_html_e( 'Items with no issues detected' ); ?>
+		</h3>
+
+		<dl id="health-check-site-status-good" role="presentation" class="health-check-accordion issues"></dl>
+	</div>
+</div>
+
+<?php
+include( ABSPATH . 'wp-admin/admin-footer.php' );

@@ -47,6 +47,8 @@ if ( ! is_multisite() ) {
 	unset( $cap );
 }
 
+$submenu['index.php'][11] = array( __( 'Site Health'), 'manage_options', 'site-health.php' );
+
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 // $menu[5] = Posts
