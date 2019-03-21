@@ -128,13 +128,16 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					if ( isset( $details['description'] ) && ! empty( $details['description'] ) ) {
 						printf(
 							'<p>%s</p>',
-							wp_kses( $details['description'], array(
-								'a'      => array(
-									'href' => true,
-								),
-								'strong' => true,
-								'em'     => true,
-							) )
+							wp_kses(
+								$details['description'],
+								array(
+									'a'      => array(
+										'href' => true,
+									),
+									'strong' => true,
+									'em'     => true,
+								)
+							)
 						);
 					}
 					?>

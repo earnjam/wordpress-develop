@@ -65,33 +65,33 @@ class WP_Debug_Data {
 			'wp-core'             => array(
 				'label'  => __( 'WordPress' ),
 				'fields' => array(
-					'version' => array(
+					'version'                => array(
 						'label' => __( 'Version' ),
 						'value' => $core_current_version . $core_update_needed,
 					),
-					'language' => array(
+					'language'               => array(
 						'label' => __( 'Language' ),
 						'value' => ( ! empty( $locale ) ? $original_locale : get_locale() ),
 					),
-					'home_url' => array(
+					'home_url'               => array(
 						'label'   => __( 'Home URL' ),
 						'value'   => get_bloginfo( 'url' ),
 						'private' => true,
 					),
-					'site_url' => array(
+					'site_url'               => array(
 						'label'   => __( 'Site URL' ),
 						'value'   => get_bloginfo( 'wpurl' ),
 						'private' => true,
 					),
-					'permalink' => array(
+					'permalink'              => array(
 						'label' => __( 'Permalink structure' ),
 						'value' => get_option( 'permalink_structure' ),
 					),
-					'https_status' => array(
+					'https_status'           => array(
 						'label' => __( 'Is this site using HTTPS?' ),
 						'value' => ( is_ssl() ? __( 'Yes' ) : __( 'No' ) ),
 					),
-					'user_registration' => array(
+					'user_registration'      => array(
 						'label' => __( 'Can anyone register on this site?' ),
 						'value' => ( get_option( 'users_can_register' ) ? __( 'Yes' ) : __( 'No' ) ),
 					),
@@ -99,7 +99,7 @@ class WP_Debug_Data {
 						'label' => __( 'Default comment status' ),
 						'value' => get_option( 'default_comment_status' ),
 					),
-					'multisite' => array(
+					'multisite'              => array(
 						'label' => __( 'Is this a multisite?' ),
 						'value' => ( is_multisite() ? __( 'Yes' ) : __( 'No' ) ),
 					),
@@ -151,20 +151,20 @@ class WP_Debug_Data {
 				'label'       => __( 'WordPress Constants' ),
 				'description' => __( 'These values represent values set in your websites code which affect WordPress in various ways that may be of importance when seeking help with your site.' ),
 				'fields'      => array(
-					'ABSPATH' => array(
+					'ABSPATH'             => array(
 						'label'   => 'ABSPATH',
 						'value'   => ( ! defined( 'ABSPATH' ) ? __( 'Undefined' ) : ABSPATH ),
 						'private' => true,
 					),
-					'WP_HOME' => array(
+					'WP_HOME'             => array(
 						'label' => 'WP_HOME',
 						'value' => ( ! defined( 'WP_HOME' ) ? __( 'Undefined' ) : WP_HOME ),
 					),
-					'WP_SITEURL' => array(
+					'WP_SITEURL'          => array(
 						'label' => 'WP_SITEURL',
 						'value' => ( ! defined( 'WP_SITEURL' ) ? __( 'Undefined' ) : WP_SITEURL ),
 					),
-					'WP_DEBUG' => array(
+					'WP_DEBUG'            => array(
 						'label' => 'WP_DEBUG',
 						'value' => ( ! defined( 'WP_DEBUG' ) ? __( 'Undefined' ) : ( WP_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
@@ -172,19 +172,19 @@ class WP_Debug_Data {
 						'label' => 'WP_MAX_MEMORY_LIMIT',
 						'value' => ( ! defined( 'WP_MAX_MEMORY_LIMIT' ) ? __( 'Undefined' ) : WP_MAX_MEMORY_LIMIT ),
 					),
-					'WP_DEBUG_DISPLAY' => array(
+					'WP_DEBUG_DISPLAY'    => array(
 						'label' => 'WP_DEBUG_DISPLAY',
 						'value' => ( ! defined( 'WP_DEBUG_DISPLAY' ) ? __( 'Undefined' ) : ( WP_DEBUG_DISPLAY ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
-					'WP_DEBUG_LOG' => array(
+					'WP_DEBUG_LOG'        => array(
 						'label' => 'WP_DEBUG_LOG',
 						'value' => ( ! defined( 'WP_DEBUG_LOG' ) ? __( 'Undefined' ) : ( WP_DEBUG_LOG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
-					'SCRIPT_DEBUG' => array(
+					'SCRIPT_DEBUG'        => array(
 						'label' => 'SCRIPT_DEBUG',
 						'value' => ( ! defined( 'SCRIPT_DEBUG' ) ? __( 'Undefined' ) : ( SCRIPT_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
-					'WP_CACHE' => array(
+					'WP_CACHE'            => array(
 						'label' => 'WP_CACHE',
 						'value' => ( ! defined( 'WP_CACHE' ) ? __( 'Undefined' ) : ( WP_CACHE ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
@@ -192,15 +192,15 @@ class WP_Debug_Data {
 						'label' => 'CONCATENATE_SCRIPTS',
 						'value' => ( ! defined( 'CONCATENATE_SCRIPTS' ) ? __( 'Undefined' ) : ( CONCATENATE_SCRIPTS ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
-					'COMPRESS_SCRIPTS' => array(
+					'COMPRESS_SCRIPTS'    => array(
 						'label' => 'COMPRESS_SCRIPTS',
 						'value' => ( ! defined( 'COMPRESS_SCRIPTS' ) ? __( 'Undefined' ) : ( COMPRESS_SCRIPTS ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
-					'COMPRESS_CSS' => array(
+					'COMPRESS_CSS'        => array(
 						'label' => 'COMPRESS_CSS',
 						'value' => ( ! defined( 'COMPRESS_CSS' ) ? __( 'Undefined' ) : ( COMPRESS_CSS ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
-					'WP_LOCAL_DEV' => array(
+					'WP_LOCAL_DEV'        => array(
 						'label' => 'WP_LOCAL_DEV',
 						'value' => ( ! defined( 'WP_LOCAL_DEV' ) ? __( 'Undefined' ) : ( WP_LOCAL_DEV ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
 					),
@@ -210,7 +210,7 @@ class WP_Debug_Data {
 				'label'       => __( 'Filesystem Permissions' ),
 				'description' => __( 'The status of various locations WordPress needs to write files in various scenarios.' ),
 				'fields'      => array(
-					'all' => array(
+					'all'        => array(
 						'label' => __( 'The main WordPress directory' ),
 						'value' => ( wp_is_writable( ABSPATH ) ? __( 'Writable' ) : __( 'Not writable' ) ),
 					),
@@ -218,15 +218,15 @@ class WP_Debug_Data {
 						'label' => __( 'The wp-content directory' ),
 						'value' => ( wp_is_writable( WP_CONTENT_DIR ) ? __( 'Writable' ) : __( 'Not writable' ) ),
 					),
-					'uploads' => array(
+					'uploads'    => array(
 						'label' => __( 'The uploads directory' ),
 						'value' => ( wp_is_writable( $upload_dir['basedir'] ) ? __( 'Writable' ) : __( 'Not writable' ) ),
 					),
-					'plugins' => array(
+					'plugins'    => array(
 						'label' => __( 'The plugins directory' ),
 						'value' => ( wp_is_writable( WP_PLUGIN_DIR ) ? __( 'Writable' ) : __( 'Not writable' ) ),
 					),
-					'themes' => array(
+					'themes'     => array(
 						'label' => __( 'The themes directory' ),
 						'value' => ( wp_is_writable( get_template_directory() . '/..' ) ? __( 'Writable' ) : __( 'Not writable' ) ),
 					),
@@ -236,22 +236,24 @@ class WP_Debug_Data {
 
 		if ( is_multisite() ) {
 			$network_query = new WP_Network_Query();
-			$network_ids   = $network_query->query( array(
-				'fields'        => 'ids',
-				'number'        => 100,
-				'no_found_rows' => false,
-			) );
+			$network_ids   = $network_query->query(
+				array(
+					'fields'        => 'ids',
+					'number'        => 100,
+					'no_found_rows' => false,
+				)
+			);
 
 			$site_count = 0;
 			foreach ( $network_ids as $network_id ) {
 				$site_count += get_blog_count( $network_id );
 			}
 
-			$info['wp-core']['fields']['user_count'] = array(
+			$info['wp-core']['fields']['user_count']    = array(
 				'label' => __( 'User Count' ),
 				'value' => get_user_count(),
 			);
-			$info['wp-core']['fields']['site_count'] = array(
+			$info['wp-core']['fields']['site_count']    = array(
 				'label' => __( 'Site Count' ),
 				'value' => $site_count,
 			);
@@ -269,9 +271,12 @@ class WP_Debug_Data {
 		}
 
 		// WordPress features requiring processing.
-		$wp_dotorg = wp_remote_get( 'https://wordpress.org', array(
-			'timeout' => 10,
-		) );
+		$wp_dotorg = wp_remote_get(
+			'https://wordpress.org',
+			array(
+				'timeout' => 10,
+			)
+		);
 		if ( ! is_wp_error( $wp_dotorg ) ) {
 			$info['wp-core']['fields']['dotorg_communication'] = array(
 				'label' => __( 'Communication with WordPress.org' ),
@@ -283,7 +288,7 @@ class WP_Debug_Data {
 			$info['wp-core']['fields']['dotorg_communication'] = array(
 				'label' => __( 'Communication with WordPress.org' ),
 				'value' => sprintf(
-				// translators: %1$s: The IP address WordPress.org resolves to. %2$s: The error returned by the lookup.
+					// translators: %1$s: The IP address WordPress.org resolves to. %2$s: The error returned by the lookup.
 					__( 'Unable to reach WordPress.org at %1$s: %2$s' ),
 					gethostbyname( 'wordpress.org' ),
 					$wp_dotorg->get_error_message()
@@ -319,7 +324,7 @@ class WP_Debug_Data {
 			'label' => __( 'Imagick Module Version' ),
 			'value' => ( is_array( $imagick_version ) ? $imagick_version['versionNumber'] : $imagick_version ),
 		);
-		$info['wp-media']['fields']['imagemagick_version'] = array(
+		$info['wp-media']['fields']['imagemagick_version']    = array(
 			'label' => __( 'ImageMagick Version' ),
 			'value' => ( is_array( $imagick_version ) ? $imagick_version['versionString'] : $imagick_version ),
 		);
@@ -369,11 +374,11 @@ class WP_Debug_Data {
 			'label' => __( 'Server architecture' ),
 			'value' => ( ! function_exists( 'php_uname' ) ? __( 'Unable to determine server architecture' ) : sprintf( '%s %s %s', php_uname( 's' ), php_uname( 'r' ), php_uname( 'm' ) ) ),
 		);
-		$info['wp-server']['fields']['httpd_software'] = array(
+		$info['wp-server']['fields']['httpd_software']      = array(
 			'label' => __( 'Web Server Software' ),
 			'value' => ( isset( $_SERVER['SERVER_SOFTWARE'] ) ? $_SERVER['SERVER_SOFTWARE'] : __( 'Unable to determine what web server software is used' ) ),
 		);
-		$info['wp-server']['fields']['php_version'] = array(
+		$info['wp-server']['fields']['php_version']         = array(
 			'label' => __( 'PHP Version' ),
 			'value' => ( ! function_exists( 'phpversion' ) ? __( 'Unable to determine PHP version' ) : sprintf(
 				'%s %s',
@@ -382,7 +387,7 @@ class WP_Debug_Data {
 			)
 			),
 		);
-		$info['wp-server']['fields']['php_sapi'] = array(
+		$info['wp-server']['fields']['php_sapi']            = array(
 			'label' => __( 'PHP SAPI' ),
 			'value' => ( ! function_exists( 'php_sapi_name' ) ? __( 'Unable to determine PHP SAPI' ) : php_sapi_name() ),
 		);
@@ -397,30 +402,30 @@ class WP_Debug_Data {
 				'label' => __( 'PHP max input variables' ),
 				'value' => ini_get( 'max_input_vars' ),
 			);
-			$info['wp-server']['fields']['time_limit'] = array(
+			$info['wp-server']['fields']['time_limit']          = array(
 				'label' => __( 'PHP time limit' ),
 				'value' => ini_get( 'max_execution_time' ),
 			);
-			$info['wp-server']['fields']['memory_limit'] = array(
+			$info['wp-server']['fields']['memory_limit']        = array(
 				'label' => __( 'PHP memory limit' ),
 				'value' => ini_get( 'memory_limit' ),
 			);
-			$info['wp-server']['fields']['max_input_time'] = array(
+			$info['wp-server']['fields']['max_input_time']      = array(
 				'label' => __( 'Max input time' ),
 				'value' => ini_get( 'max_input_time' ),
 			);
-			$info['wp-server']['fields']['upload_max_size'] = array(
+			$info['wp-server']['fields']['upload_max_size']     = array(
 				'label' => __( 'Upload max filesize' ),
 				'value' => ini_get( 'upload_max_filesize' ),
 			);
-			$info['wp-server']['fields']['php_post_max_size'] = array(
+			$info['wp-server']['fields']['php_post_max_size']   = array(
 				'label' => __( 'PHP post max size' ),
 				'value' => ini_get( 'post_max_size' ),
 			);
 		}
 
 		if ( function_exists( 'curl_version' ) ) {
-			$curl                          = curl_version();
+			$curl                                        = curl_version();
 			$info['wp-server']['fields']['curl_version'] = array(
 				'label' => __( 'cURL Version' ),
 				'value' => sprintf( '%s %s', $curl['version'], $curl['ssl_version'] ),
@@ -491,29 +496,29 @@ class WP_Debug_Data {
 			}
 		}
 
-		$info['wp-database']['fields']['extension'] = array(
+		$info['wp-database']['fields']['extension']       = array(
 			'label' => __( 'Extension' ),
 			'value' => $extension,
 		);
-		$info['wp-database']['fields']['server_version'] = array(
+		$info['wp-database']['fields']['server_version']  = array(
 			'label' => __( 'Server version' ),
 			'value' => $server,
 		);
-		$info['wp-database']['fields']['client_version'] = array(
+		$info['wp-database']['fields']['client_version']  = array(
 			'label' => __( 'Client version' ),
 			'value' => $client_version,
 		);
-		$info['wp-database']['fields']['database_user'] = array(
+		$info['wp-database']['fields']['database_user']   = array(
 			'label'   => __( 'Database user' ),
 			'value'   => $wpdb->dbuser,
 			'private' => true,
 		);
-		$info['wp-database']['fields']['database_host'] = array(
+		$info['wp-database']['fields']['database_host']   = array(
 			'label'   => __( 'Database host' ),
 			'value'   => $wpdb->dbhost,
 			'private' => true,
 		);
-		$info['wp-database']['fields']['database_name'] = array(
+		$info['wp-database']['fields']['database_name']   = array(
 			'label'   => __( 'Database name' ),
 			'value'   => $wpdb->dbname,
 			'private' => true,
@@ -610,17 +615,17 @@ class WP_Debug_Data {
 		}
 
 		$info['wp-active-theme']['fields'] = array(
-			'name' => array(
+			'name'           => array(
 				'label' => __( 'Name' ),
 				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 				'value' => $active_theme->Name,
 			),
-			'version' => array(
+			'version'        => array(
 				'label' => __( 'Version' ),
 				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 				'value' => $active_theme->Version . $theme_update_needed_active,
 			),
-			'author' => array(
+			'author'         => array(
 				'label' => __( 'Author' ),
 				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 				'value' => wp_kses( $active_theme->Author, array() ),
@@ -629,7 +634,7 @@ class WP_Debug_Data {
 				'label' => __( 'Author website' ),
 				'value' => ( $active_theme->offsetGet( 'Author URI' ) ? $active_theme->offsetGet( 'Author URI' ) : __( 'Undefined' ) ),
 			),
-			'parent_theme' => array(
+			'parent_theme'   => array(
 				'label' => __( 'Parent theme' ),
 				'value' => ( $active_theme->parent_theme ? $active_theme->parent_theme : __( 'Not a child theme' ) ),
 			),
@@ -676,7 +681,7 @@ class WP_Debug_Data {
 
 			$info['wp-themes']['fields'][ sanitize_key( $theme->Name ) ] = array(
 				'label' => sprintf(
-				// translators: %1$s: Theme name. %2$s: Theme slug.
+					// translators: %1$s: Theme name. %2$s: Theme slug.
 					__( '%1$s (%2$s)' ),
 					// phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 					$theme->Name,

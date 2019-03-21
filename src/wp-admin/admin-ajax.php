@@ -132,7 +132,7 @@ $core_actions_post = array(
 	'wp-privacy-export-personal-data',
 	'wp-privacy-erase-personal-data',
 	'health-check-site-status',
-	'health-check-site-status-result'
+	'health-check-site-status-result',
 );
 
 // Deprecated

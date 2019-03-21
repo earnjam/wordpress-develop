@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WP_Site_Health {
-	private $php_min_version_check = '5.2.4';
+	private $php_min_version_check       = '5.2.4';
 	private $php_supported_version_check = '5.6';
-	private $php_rec_version_check = '7.3';
+	private $php_rec_version_check       = '7.3';
 
 	private $mysql_min_version_check;
 	private $mysql_rec_version_check;
@@ -51,7 +51,7 @@ class WP_Site_Health {
 		}
 
 		$health_check_js_variables = array(
-			'screen' => $screen->id,
+			'screen'      => $screen->id,
 			'string'      => array(
 				'please_wait'                        => esc_html__( 'Please wait...' ),
 				'copied'                             => esc_html__( 'Copied' ),
@@ -64,8 +64,8 @@ class WP_Site_Health {
 				'site_info_copied'                   => esc_html__( 'Site information has been added to your clipboard.' ),
 			),
 			'nonce'       => array(
-				'site_status'                 => wp_create_nonce( 'health-check-site-status' ),
-				'site_status_result'          => wp_create_nonce( 'health-check-site-status-result' ),
+				'site_status'        => wp_create_nonce( 'health-check-site-status' ),
+				'site_status_result' => wp_create_nonce( 'health-check-site-status-result' ),
 			),
 			'site_status' => array(
 				'direct' => array(),
@@ -331,11 +331,13 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					// translators: %d: The amount of outdated plugins.
-					esc_html( _n(
-						'Your site has %d plugin waiting to be updated.',
-						'Your site has %d plugins waiting for updates.',
-						$plugins_needs_update
-					) ),
+					esc_html(
+						_n(
+							'Your site has %d plugin waiting to be updated.',
+							'Your site has %d plugins waiting for updates.',
+							$plugins_needs_update
+						)
+					),
 					$plugins_needs_update
 				)
 			);
@@ -344,11 +346,13 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					// translators: %d: The amount of plugins.
-					esc_html( _n(
-						'Your site has %d active plugin, and it is up to date.',
-						'Your site has %d active plugins, and they are all up to date.',
-						$plugins_active
-					) ),
+					esc_html(
+						_n(
+							'Your site has %d active plugin, and it is up to date.',
+							'Your site has %d active plugins, and they are all up to date.',
+							$plugins_active
+						)
+					),
 					$plugins_active
 				)
 			);
@@ -365,11 +369,13 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					// translators: %d: The amount of inactive plugins.
-					esc_html( _n(
-						'Your site has %d inactive plugin. Inactive plugins are tempting targets for attackers. if you\'re not going to use a plugin, we recommend you remove it.',
-						'Your site has %d inactive plugins. Inactive plugins are tempting targets for attackers. if you\'re not going to use a plugin, we recommend you remove it.',
-						$unused_plugins
-					) ),
+					esc_html(
+						_n(
+							'Your site has %d inactive plugin. Inactive plugins are tempting targets for attackers. if you\'re not going to use a plugin, we recommend you remove it.',
+							'Your site has %d inactive plugins. Inactive plugins are tempting targets for attackers. if you\'re not going to use a plugin, we recommend you remove it.',
+							$unused_plugins
+						)
+					),
 					$unused_plugins
 				)
 			);
@@ -452,11 +458,13 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					// translators: %d: The amount of outdated themes.
-					esc_html( _n(
-						'Your site has %d theme waiting to be updated.',
-						'Your site has %d themes waiting to be updated.',
-						$themes_need_updates
-					) ),
+					esc_html(
+						_n(
+							'Your site has %d theme waiting to be updated.',
+							'Your site has %d themes waiting to be updated.',
+							$themes_need_updates
+						)
+					),
 					$themes_need_updates
 				)
 			);
@@ -465,11 +473,13 @@ class WP_Site_Health {
 				'<p>%s</p>',
 				sprintf(
 					// translators: %d: The amount of themes.
-					esc_html( _n(
-						'Your site has %d installed theme, and it is up to date.',
-						'Your site has %d installed themes, and they are all up to date.',
-						$themes_total
-					) ),
+					esc_html(
+						_n(
+							'Your site has %d installed theme, and it is up to date.',
+							'Your site has %d installed themes, and they are all up to date.',
+							$themes_total
+						)
+					),
 					$themes_total
 				)
 			);
@@ -488,11 +498,13 @@ class WP_Site_Health {
 						'<p>%s</p>',
 						sprintf(
 							// translators: %1$d: The amount of inactive themes. %2$s: The currently active theme. %3$s: The active themes parent theme.
-							esc_html( _n(
-								'Your site has %1$d inactive theme. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep your current theme, %2$s, and %3$s, its parent theme.',
-								'Your site has %1$d inactive themes. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep your current theme, %2$s, and %3$s, its parent theme.',
-								$themes_inactive
-							) ),
+							esc_html(
+								_n(
+									'Your site has %1$d inactive theme. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep your current theme, %2$s, and %3$s, its parent theme.',
+									'Your site has %1$d inactive themes. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep your current theme, %2$s, and %3$s, its parent theme.',
+									$themes_inactive
+								)
+							),
 							$themes_inactive,
 							$active_theme->name,
 							$active_theme->parent()->name
@@ -503,11 +515,13 @@ class WP_Site_Health {
 						'<p>%s</p>',
 						sprintf(
 							// translators: %1$d: The amount of inactive themes. %2$s: The default theme for WordPress. %3$s: The currently active theme. %4$s: The active themes parent theme.
-							esc_html( _n(
-								'Your site has %1$d inactive theme. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep %2$s, the default WordPress theme, %3$s, your current theme and %4$s, its parent theme.',
-								'Your site has %1$d inactive themes. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep %2$s, the default WordPress theme, %3$s, your current theme and %4$s, its parent theme.',
-								$themes_inactive
-							) ),
+							esc_html(
+								_n(
+									'Your site has %1$d inactive theme. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep %2$s, the default WordPress theme, %3$s, your current theme and %4$s, its parent theme.',
+									'Your site has %1$d inactive themes. To enhance your site’s security, we recommend you remove any themes you\'re not using. You should keep %2$s, the default WordPress theme, %3$s, your current theme and %4$s, its parent theme.',
+									$themes_inactive
+								)
+							),
 							$themes_inactive,
 							WP_DEFAULT_THEME,
 							$active_theme->name,
@@ -515,7 +529,6 @@ class WP_Site_Health {
 						)
 					);
 				}
-
 			} else {
 				$result['status'] = 'recommended';
 
@@ -526,11 +539,13 @@ class WP_Site_Health {
 						'<p>%s</p>',
 						sprintf(
 							// translators: %1$d: The amount of inactive themes. %2$s: The currently active theme.
-							esc_html( _n(
-								'Your site has %1$d inactive theme, other than %2$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-								'Your site has %1$d inactive themes, other than %2$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-								$themes_inactive
-							) ),
+							esc_html(
+								_n(
+									'Your site has %1$d inactive theme, other than %2$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
+									'Your site has %1$d inactive themes, other than %2$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
+									$themes_inactive
+								)
+							),
 							$themes_inactive,
 							$active_theme->name
 						)
@@ -540,11 +555,13 @@ class WP_Site_Health {
 						'<p>%s</p>',
 						sprintf(
 							// translators: %1$d: The amount of inactive themes. %2$s: The default theme for WordPress. %3$s: The currently active theme.
-							esc_html( _n(
-								'Your site has %1$d inactive theme, other than %2$s, the default WordPress theme, and %3$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-								'Your site has %1$d inactive themes, other than %2$s, the default WordPress theme, and %3$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
-								$themes_inactive
-							) ),
+							esc_html(
+								_n(
+									'Your site has %1$d inactive theme, other than %2$s, the default WordPress theme, and %3$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
+									'Your site has %1$d inactive themes, other than %2$s, the default WordPress theme, and %3$s, your active theme. We recommend removing any unused themes to enhance your sites security.',
+									$themes_inactive
+								)
+							),
 							$themes_inactive,
 							WP_DEFAULT_THEME,
 							$active_theme->name
@@ -819,7 +836,7 @@ class WP_Site_Health {
 					( $module['required'] ? 'error' : 'warning' ),
 					( $module['required'] ? esc_html__( 'Error' ) : esc_html__( 'Warning' ) ),
 					sprintf(
-					// translators: %1$2: If a module is required or recommended. %2$s: The module name.
+						// translators: %1$2: If a module is required or recommended. %2$s: The module name.
 						__( 'The %1$s module, %2$s, is not installed, or has been disabled.' ),
 						( $module['required'] ? __( 'required' ) : __( 'optional' ) ),
 						$library
@@ -1056,9 +1073,12 @@ class WP_Site_Health {
 			'test'        => 'dotorg_communication',
 		);
 
-		$wp_dotorg = wp_remote_get( 'https://wordpress.org', array(
-			'timeout' => 10,
-		) );
+		$wp_dotorg = wp_remote_get(
+			'https://wordpress.org',
+			array(
+				'timeout' => 10,
+			)
+		);
 		if ( ! is_wp_error( $wp_dotorg ) ) {
 			$result['status'] = 'good';
 		} else {
@@ -1477,9 +1497,12 @@ class WP_Site_Health {
 		$url = rest_url( 'wp/v2/types/post' );
 
 		// We only need the first post to ensure this works, to make it low impact.
-		$url = add_query_arg( array(
-			'context' => 'edit',
-		), $url );
+		$url = add_query_arg(
+			array(
+				'context' => 'edit',
+			),
+			$url
+		);
 
 		$r = wp_remote_get( $url, compact( 'cookies', 'headers', 'timeout' ) );
 
