@@ -8,9 +8,9 @@
  */
 
 /**
- * Class Site_Health_Auto_Updates
+ * Class WP_Site_Health_Auto_Updates
  */
-class Site_Health_Auto_Updates {
+class WP_Site_Health_Auto_Updates {
 	/**
 	 * Health_Check_Auto_Updates constructor.
 
@@ -38,7 +38,7 @@ class Site_Health_Auto_Updates {
 		$tests = array();
 
 		foreach ( get_class_methods( $this ) as $method ) {
-			if ( 'test_' !== substr( $method, 0, 5 ) ) {
+			if ( 0 === strpos( $method, 'test_' ) ) {
 				continue;
 			}
 
@@ -68,12 +68,12 @@ class Site_Health_Auto_Updates {
 	function test_constant_FILE_MODS() {
 		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the constant used. */
 					__( 'The %s constant is defined and enabled.' ),
 					'<code>DISALLOW_FILE_MODS</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 	}
@@ -86,12 +86,12 @@ class Site_Health_Auto_Updates {
 	function test_constant_AUTOMATIC_UPDATER_DISABLED() {
 		if ( defined( 'AUTOMATIC_UPDATER_DISABLED' ) && AUTOMATIC_UPDATER_DISABLED ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the constant used. */
 					__( 'The %s constant is defined and enabled.' ),
 					'<code>AUTOMATIC_UPDATER_DISABLED</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 	}
@@ -104,12 +104,12 @@ class Site_Health_Auto_Updates {
 	function test_constant_WP_AUTO_UPDATE_CORE() {
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) && false === WP_AUTO_UPDATE_CORE ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the constant used. */
 					__( 'The %s constant is defined and enabled.' ),
 					'<code>WP_AUTO_UPDATE_CORE</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 	}
@@ -144,12 +144,12 @@ class Site_Health_Auto_Updates {
 
 		if ( 'yes' !== $response ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the filter used. */
 					__( 'A plugin has prevented updates by disabling %s.' ),
 					'<code>wp_version_check()</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 	}
@@ -162,12 +162,12 @@ class Site_Health_Auto_Updates {
 	function test_filters_automatic_updater_disabled() {
 		if ( apply_filters( 'automatic_updater_disabled', false ) ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the filter used. */
 					__( 'The %s filter is enabled.' ),
 					'<code>automatic_updater_disabled</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 	}
@@ -185,34 +185,34 @@ class Site_Health_Auto_Updates {
 		}
 
 		if ( ! empty( $failed['critical'] ) ) {
-			$desc  = __( 'A previous automatic background update ended with a critical failure, so updates are now disabled.' );
-			$desc .= ' ' . __( 'You would have received an email because of this.' );
-			$desc .= ' ' . __( "When you've been able to update using the \"Update Now\" button on Dashboard > Updates, we'll clear this error for future update attempts." );
-			$desc .= ' ' . sprintf(
+			$description  = __( 'A previous automatic background update ended with a critical failure, so updates are now disabled.' );
+			$description .= ' ' . __( 'You would have received an email because of this.' );
+			$description .= ' ' . __( "When you've been able to update using the \"Update Now\" button on Dashboard > Updates, we'll clear this error for future update attempts." );
+			$description .= ' ' . sprintf(
 				/* translators: %s: Code of error shown. */
 				__( 'The error code was %s.' ),
 				'<code>' . $failed['error_code'] . '</code>'
 			);
 			return array(
-				'desc'     => $desc,
-				'severity' => 'warning',
+				'description' => $description,
+				'severity'    => 'warning',
 			);
 		}
 
-		$desc = __( 'A previous automatic background update could not occur.' );
+		$description = __( 'A previous automatic background update could not occur.' );
 		if ( empty( $failed['retry'] ) ) {
-			$desc .= ' ' . __( 'You would have received an email because of this.' );
+			$description .= ' ' . __( 'You would have received an email because of this.' );
 		}
 
-		$desc .= ' ' . __( "We'll try again with the next release." );
-		$desc .= ' ' . sprintf(
+		$description .= ' ' . __( "We'll try again with the next release." );
+		$description .= ' ' . sprintf(
 			/* translators: %s: Code of error shown. */
 			__( 'The error code was %s.' ),
 			'<code>' . $failed['error_code'] . '</code>'
 		);
 		return array(
-			'desc'     => $desc,
-			'severity' => 'warning',
+			'description' => $description,
+			'severity'    => 'warning',
 		);
 	}
 
@@ -256,32 +256,32 @@ class Site_Health_Auto_Updates {
 
 		if ( $checkout && ! apply_filters( 'automatic_updates_is_vcs_checkout', true, $context ) ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					// translators: %1$s: Folder name. %2$s: Version control directory. %3$s: Filter name.
 					__( 'The folder %1$s was detected as being under version control (%2$s), but the %3$s filter is allowing updates.' ),
 					'<code>' . $check_dir . '</code>',
 					"<code>$vcs_dir</code>",
 					'<code>automatic_updates_is_vcs_checkout</code>'
 				),
-				'severity' => 'info',
+				'severity'    => 'info',
 			);
 		}
 
 		if ( $checkout ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					// translators: %1$s: Folder name. %2$s: Version control directory.
 					__( 'The folder %1$s was detected as being under version control (%2$s).' ),
 					'<code>' . $check_dir . '</code>',
 					"<code>$vcs_dir</code>"
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 
 		return array(
-			'desc'     => __( 'No version control systems were detected.' ),
-			'severity' => 'pass',
+			'description' => __( 'No version control systems were detected.' ),
+			'severity'    => 'pass',
 		);
 	}
 
@@ -305,23 +305,23 @@ class Site_Health_Auto_Updates {
 		$success = $skin->request_filesystem_credentials( false, ABSPATH );
 
 		if ( ! $success ) {
-			$desc  = __( 'Your installation of WordPress prompts for FTP credentials to perform updates.' );
-			$desc .= ' ' . __( '(Your site is performing updates over FTP due to file ownership. Talk to your hosting company.)' );
+			$description  = __( 'Your installation of WordPress prompts for FTP credentials to perform updates.' );
+			$description .= ' ' . __( '(Your site is performing updates over FTP due to file ownership. Talk to your hosting company.)' );
 
 			return array(
-				'desc'     => $desc,
-				'severity' => 'fail',
+				'description' => $description,
+				'severity'    => 'fail',
 			);
 		}
 
 		return array(
-			'desc'     => __( "Your installation of WordPress doesn't require FTP credentials to perform updates." ),
-			'severity' => 'pass',
+			'description' => __( "Your installation of WordPress doesn't require FTP credentials to perform updates." ),
+			'severity'    => 'pass',
 		);
 	}
 
 	/**
-	 * Check if core files are writeable by the web user/group.
+	 * Check if core files are writable by the web user/group.
 	 *
 	 * @return array|bool
 	 */
@@ -355,15 +355,15 @@ class Site_Health_Auto_Updates {
 		}
 
 		if ( ! $checksums ) {
-			$desc = sprintf(
+			$description = sprintf(
 				// translators: %s: WordPress version
 				__( "Couldn't retrieve a list of the checksums for WordPress %s." ),
 				$wp_version
 			);
-			$desc .= ' ' . __( 'This could mean that connections are failing to WordPress.org.' );
+			$description .= ' ' . __( 'This could mean that connections are failing to WordPress.org.' );
 			return array(
-				'desc'     => $desc,
-				'severity' => 'warning',
+				'description' => $description,
+				'severity'    => 'warning',
 			);
 		}
 
@@ -386,13 +386,13 @@ class Site_Health_Auto_Updates {
 				$unwritable_files[] = '...';
 			}
 			return array(
-				'desc'     => __( 'Some files are not writable by WordPress:' ) . ' <ul><li>' . implode( '</li><li>', $unwritable_files ) . '</li></ul>',
-				'severity' => 'fail',
+				'description' => __( 'Some files are not writable by WordPress:' ) . ' <ul><li>' . implode( '</li><li>', $unwritable_files ) . '</li></ul>',
+				'severity'    => 'fail',
 			);
 		} else {
 			return array(
-				'desc'     => __( 'All of your WordPress files are writable.' ),
-				'severity' => 'pass',
+				'description' => __( 'All of your WordPress files are writable.' ),
+				'severity'    => 'pass',
 			);
 		}
 	}
@@ -411,23 +411,23 @@ class Site_Health_Auto_Updates {
 
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) && ( 'minor' === WP_AUTO_UPDATE_CORE || false === WP_AUTO_UPDATE_CORE ) ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the constant used. */
 					__( 'WordPress development updates are blocked by the %s constant.' ),
 					'<code>WP_AUTO_UPDATE_CORE</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 
 		if ( ! apply_filters( 'allow_dev_auto_core_updates', $wp_version ) ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the filter used. */
 					__( 'WordPress development updates are blocked by the %s filter.' ),
 					'<code>allow_dev_auto_core_updates</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 	}
@@ -440,23 +440,23 @@ class Site_Health_Auto_Updates {
 	function test_accepts_minor_updates() {
 		if ( defined( 'WP_AUTO_UPDATE_CORE' ) && false === WP_AUTO_UPDATE_CORE ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the constant used. */
 					__( 'WordPress security and maintenance releases are blocked by %s.' ),
 					"<code>define( 'WP_AUTO_UPDATE_CORE', false );</code>"
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 
 		if ( ! apply_filters( 'allow_minor_auto_core_updates', true ) ) {
 			return array(
-				'desc'     => sprintf(
+				'description' => sprintf(
 					/* translators: %s: Name of the filter used. */
 					__( 'WordPress security and maintenance releases are blocked by the %s filter.' ),
 					'<code>allow_minor_auto_core_updates</code>'
 				),
-				'severity' => 'fail',
+				'severity'    => 'fail',
 			);
 		}
 	}

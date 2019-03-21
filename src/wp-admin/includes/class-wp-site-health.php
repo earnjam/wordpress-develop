@@ -869,7 +869,6 @@ class WP_Site_Health {
 			),
 		);
 
-
 		/**
 		 * An array representing all the modules we wish to test for.
 		 *
@@ -1472,13 +1471,13 @@ class WP_Site_Health {
 			'test'        => 'background_updates',
 		);
 
-		if ( ! class_exists( 'Site_Health_Auto_Updates' ) ) {
+		if ( ! class_exists( 'WP_Site_Health_Auto_Updates' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health-auto-updates.php' );
 		}
 
 		// Run the auto-update tests in a separate class,
 		// as there are many considerations to be made.
-		$automatic_updates = new Site_Health_Auto_Updates();
+		$automatic_updates = new WP_Site_Health_Auto_Updates();
 		$tests             = $automatic_updates->run_tests();
 
 		$output = '<ul>';
@@ -1506,7 +1505,7 @@ class WP_Site_Health {
 				'<li><span class="%s"><span class="screen-reader-text">%s</span></span> %s</li>',
 				esc_attr( $test->severity ),
 				$severity_string,
-				$test->desc
+				$test->description
 			);
 		}
 
