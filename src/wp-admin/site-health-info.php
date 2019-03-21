@@ -46,11 +46,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<nav class="tabs-wrapper" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 			<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="tab">
-				<?php esc_html_e( 'Status' ); ?>
+				<?php _e( 'Status' ); ?>
 			</a>
 
 			<a href="<?php echo esc_url( admin_url( 'site-health.php?tab=debug' ) ); ?>" class="tab active" aria-current="true">
-				<?php esc_html_e( 'Info' ); ?>
+				<?php _e( 'Info' ); ?>
 			</a>
 		</nav>
 
@@ -65,16 +65,16 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		?>
 
 		<h2>
-			<?php esc_html_e( 'Site Info' ); ?>
+			<?php _e( 'Site Info' ); ?>
 		</h2>
 
 		<p>
-			<?php esc_html_e( 'You can export the information on this page so it can be easily copied and pasted in support requests such as on the WordPress.org forums, or shared with your website / theme / plugin developers.' ); ?>
+			<?php _e( 'You can export the information on this page so it can be easily copied and pasted in support requests such as on the WordPress.org forums, or shared with your website / theme / plugin developers.' ); ?>
 		</p>
 
 		<p>
 			<button type="button" class="button button-link health-check-toggle-copy-section">
-				<?php esc_html_e( 'Show options for copying this information' ); ?>
+				<?php _e( 'Show options for copying this information' ); ?>
 			</button>
 		</p>
 
@@ -91,12 +91,12 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 			<?php endif; ?>
 
 			<div class="copy-button-wrapper">
-				<button type="button" class="button button-primary health-check-copy-field" data-copy-field="default"><?php esc_html_e( 'Copy to clipboard' ); ?></button>
+				<button type="button" class="button button-primary health-check-copy-field" data-copy-field="default"><?php _e( 'Copy to clipboard' ); ?></button>
 				<span class="copy-field-success" aria-hidden="true">Copied!</span>
 			</div>
 			<?php if ( 'en_US' !== get_locale() && version_compare( get_bloginfo( 'version' ), '4.7', '>=' ) ) : ?>
 				<div class="copy-button-wrapper">
-					<button type="button" class="button health-check-copy-field" data-copy-field="english"><?php esc_html_e( 'Copy to clipboard (English)' ); ?></button>
+					<button type="button" class="button health-check-copy-field" data-copy-field="english"><?php _e( 'Copy to clipboard (English)' ); ?></button>
 					<span class="copy-field-success" aria-hidden="true">Copied!</span>
 				</div>
 			<?php endif; ?>

@@ -48,11 +48,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<nav class="tabs-wrapper" aria-label="<?php esc_attr_e( 'Secondary menu' ); ?>">
 		<a href="<?php echo esc_url( admin_url( 'site-health.php' ) ); ?>" class="tab active" aria-current="true">
-			<?php esc_html_e( 'Status' ); ?>
+			<?php _e( 'Status' ); ?>
 		</a>
 
 		<a href="<?php echo esc_url( admin_url( 'site-health.php?tab=debug' ) ); ?>" class="tab">
-			<?php esc_html_e( 'Info' ); ?>
+			<?php _e( 'Info' ); ?>
 		</a>
 	</nav>
 
@@ -66,22 +66,22 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		</p>
 
 		<p class="encouragement">
-			<?php esc_html_e( 'Great job!' ); ?>
+			<?php _e( 'Great job!' ); ?>
 		</p>
 
 		<p>
-			<?php esc_html_e( 'Everything is running smoothly here.' ); ?>
+			<?php _e( 'Everything is running smoothly here.' ); ?>
 		</p>
 	</div>
 
 	<div class="site-status-has-issues">
 		<h2>
-			<?php esc_html_e( 'Site Health Status' ); ?>
+			<?php _e( 'Site Health Status' ); ?>
 		</h2>
 
 		<div class="issues-wrapper" id="health-check-issues-critical">
 			<h3>
-				<span class="issue-count">0</span> <?php esc_html_e( 'Critical issues' ); ?>
+				<span class="issue-count">0</span> <?php _e( 'Critical issues' ); ?>
 			</h3>
 
 			<dl id="health-check-site-status-critical" role="presentation" class="health-check-accordion issues"></dl>
@@ -89,7 +89,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="issues-wrapper" id="health-check-issues-recommended">
 			<h3>
-				<span class="issue-count">0</span> <?php esc_html_e( 'Recommended improvements' ); ?>
+				<span class="issue-count">0</span> <?php _e( 'Recommended improvements' ); ?>
 			</h3>
 
 			<dl id="health-check-site-status-recommended" role="presentation" class="health-check-accordion issues"></dl>
@@ -98,13 +98,13 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div class="view-more">
 		<button type="button" class="button button-link site-health-view-passed" aria-expanded="false">
-			<?php esc_html_e( 'Show passed tests' ); ?>
+			<?php _e( 'Show passed tests' ); ?>
 		</button>
 	</div>
 
 	<div class="issues-wrapper hidden" id="health-check-issues-good">
 		<h3>
-			<span class="issue-count">0</span> <?php esc_html_e( 'Items with no issues detected' ); ?>
+			<span class="issue-count">0</span> <?php _e( 'Items with no issues detected' ); ?>
 		</h3>
 
 		<dl id="health-check-site-status-good" role="presentation" class="health-check-accordion issues"></dl>

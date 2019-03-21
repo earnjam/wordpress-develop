@@ -53,15 +53,15 @@ class WP_Site_Health {
 		$health_check_js_variables = array(
 			'screen'      => $screen->id,
 			'string'      => array(
-				'please_wait'                        => esc_html__( 'Please wait...' ),
-				'copied'                             => esc_html__( 'Copied' ),
-				'running_tests'                      => esc_html__( 'Currently being tested...' ),
-				'site_health_complete'               => esc_html__( 'All site health tests have finished running.' ),
-				'site_info_show_copy'                => esc_html__( 'Show options for copying this information' ),
-				'site_info_hide_copy'                => esc_html__( 'Hide options for copying this information' ),
+				'please_wait'                        => __( 'Please wait...' ),
+				'copied'                             => __( 'Copied' ),
+				'running_tests'                      => __( 'Currently being tested...' ),
+				'site_health_complete'               => __( 'All site health tests have finished running.' ),
+				'site_info_show_copy'                => __( 'Show options for copying this information' ),
+				'site_info_hide_copy'                => __( 'Hide options for copying this information' ),
 				// translators: %s: The percentage score for the tests.
-				'site_health_complete_screen_reader' => esc_html__( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' ),
-				'site_info_copied'                   => esc_html__( 'Site information has been added to your clipboard.' ),
+				'site_health_complete_screen_reader' => __( 'All site health tests have finished running. Your site scored %s, and the results are now available on the page.' ),
+				'site_info_copied'                   => __( 'Site information has been added to your clipboard.' ),
 			),
 			'nonce'       => array(
 				'site_status'        => wp_create_nonce( 'health-check-site-status' ),
@@ -203,19 +203,19 @@ class WP_Site_Health {
 
 			$result['label'] = sprintf(
 				// translators: %s: Your current version of WordPress.
-				esc_html__( 'WordPress version %s' ),
+				__( 'WordPress version %s' ),
 				$core_current_version
 			);
 
 			$result['description'] = sprintf(
 				'<p>%s</p>',
-				esc_html__( 'We were unable to check if any new versions of WordPress are available.' )
+				__( 'We were unable to check if any new versions of WordPress are available.' )
 			);
 
 			$result['actions'] = sprintf(
 				'<a href="%s">%s</a>',
 				esc_url( admin_url( 'update-core.php?force-check=1' ) ),
-				esc_html__( 'Check for updates manually' )
+				__( 'Check for updates manually' )
 			);
 		} else {
 			foreach ( $core_updates as $core => $update ) {
@@ -228,14 +228,14 @@ class WP_Site_Health {
 
 					$result['label'] = sprintf(
 						// translators: %s: The latest version of WordPress available.
-						esc_html__( 'WordPress update available (%s)' ),
+						__( 'WordPress update available (%s)' ),
 						$update->version
 					);
 
 					$result['actions'] = sprintf(
 						'<a href="%s">%s</a>',
 						esc_url( admin_url( 'update-core.php' ) ),
-						esc_html__( 'Install the latest version of WordPress' )
+						__( 'Install the latest version of WordPress' )
 					);
 
 					if ( $current_major !== $new_major ) {
@@ -243,27 +243,27 @@ class WP_Site_Health {
 						$result['status']      = 'recommended';
 						$result['description'] = sprintf(
 							'<p>%s</p>',
-							esc_html__( 'A new version of WordPress is available.' )
+							__( 'A new version of WordPress is available.' )
 						);
 					} else {
 						// This is a minor version, sometimes considered more critical.
 						$result['status']      = 'critical';
 						$result['description'] = sprintf(
 							'<p>%s</p>',
-							esc_html__( 'A new minor update is available for your site. Because minor updates often address security, it\'s important to install them.' )
+							__( 'A new minor update is available for your site. Because minor updates often address security, it\'s important to install them.' )
 						);
 					}
 				} else {
 					$result['status'] = 'good';
 					$result['label']  = sprintf(
 						// translators: %s: The current version of WordPress installed on this site.
-						esc_html__( 'Your WordPress version is up to date (%s)' ),
+						__( 'Your WordPress version is up to date (%s)' ),
 						$core_current_version
 					);
 
 					$result['description'] = sprintf(
 						'<p>%s</p>',
-						esc_html__( 'You are currently running the latest version of WordPress available, keep it up!' )
+						__( 'You are currently running the latest version of WordPress available, keep it up!' )
 					);
 				}
 			}
@@ -284,7 +284,7 @@ class WP_Site_Health {
 
 	public function get_test_plugin_version() {
 		$result = array(
-			'label'       => esc_html__( 'Your plugins are up to date' ),
+			'label'       => __( 'Your plugins are up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Security',
@@ -292,7 +292,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Plugins extend your site\'s functionality with things like contact forms, ecommerce and much more. That means they have deep access to your site, so it\'s vital to keep them up to date.' )
+				__( 'Plugins extend your site\'s functionality with things like contact forms, ecommerce and much more. That means they have deep access to your site, so it\'s vital to keep them up to date.' )
 			),
 			'actions'     => '',
 			'test'        => 'plugin_version',
@@ -325,7 +325,7 @@ class WP_Site_Health {
 		if ( $plugins_needs_update > 0 ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'You have plugins waiting to be updated' );
+			$result['label'] = __( 'You have plugins waiting to be updated' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
@@ -363,7 +363,7 @@ class WP_Site_Health {
 
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'Inactive plugins should be removed' );
+			$result['label'] = __( 'Inactive plugins should be removed' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
@@ -386,7 +386,7 @@ class WP_Site_Health {
 
 	public function get_test_theme_version() {
 		$result = array(
-			'label'       => esc_html__( 'Your themes are up to date' ),
+			'label'       => __( 'Your themes are up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Security',
@@ -394,7 +394,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Themes add your site\'s look and feel. It\'s important to keep them up to date -- to stay consistent with your brand and keep your site secure.' )
+				__( 'Themes add your site\'s look and feel. It\'s important to keep them up to date -- to stay consistent with your brand and keep your site secure.' )
 			),
 			'actions'     => '',
 			'test'        => 'theme_version',
@@ -452,7 +452,7 @@ class WP_Site_Health {
 		if ( $themes_need_updates > 0 ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'You have themes waiting to be updated' );
+			$result['label'] = __( 'You have themes waiting to be updated' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
@@ -491,7 +491,7 @@ class WP_Site_Health {
 			if ( $active_theme->parent() ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'You should remove inactive themes' );
+				$result['label'] = __( 'You should remove inactive themes' );
 
 				if ( $using_default_theme ) {
 					$result['description'] .= sprintf(
@@ -532,7 +532,7 @@ class WP_Site_Health {
 			} else {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'You should remove inactive themes' );
+				$result['label'] = __( 'You should remove inactive themes' );
 
 				if ( $using_default_theme ) {
 					$result['description'] .= sprintf(
@@ -574,11 +574,11 @@ class WP_Site_Health {
 		if ( ! $has_default_theme ) {
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'Have a default theme available' );
+			$result['label'] = __( 'Have a default theme available' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Your site does not have any default theme. Default themes are used by WordPress automatically if anything is wrong with your normal theme.' )
+				__( 'Your site does not have any default theme. Default themes are used by WordPress automatically if anything is wrong with your normal theme.' )
 			);
 		}
 
@@ -589,7 +589,7 @@ class WP_Site_Health {
 		$result = array(
 			'label'       => sprintf(
 				// translators: %s: The current PHP version.
-				esc_html__( 'PHP is up to date (%s)' ),
+				__( 'PHP is up to date (%s)' ),
 				PHP_VERSION
 			),
 			'status'      => 'good',
@@ -599,7 +599,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'PHP is the language your web server runs. WordPress uses it to get content from the database and build your site\'s pages in real time.' )
+				__( 'PHP is the language your web server runs. WordPress uses it to get content from the database and build your site\'s pages in real time.' )
 			),
 			'actions'     => '',
 			'test'        => 'php_version',
@@ -608,21 +608,21 @@ class WP_Site_Health {
 		if ( ! $this->php_min_version_check ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'Your PHP version requires an update' );
+			$result['label'] = __( 'Your PHP version requires an update' );
 
 			$result['actions'] = sprintf(
 				'<a href="%s">%s</a>',
 				esc_url(
 					_x( 'https://wordpress.org/support/upgrade-php/', 'The link to the Update PHP page, which may be localized.' )
 				),
-				esc_html__( 'Learn more about why you should update PHP' )
+				__( 'Learn more about why you should update PHP' )
 			);
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %1$s: Current PHP version. %2$s: Recommended PHP version. %3$s: Minimum PHP version.
-					esc_html__( 'Your version of PHP, %1$s, is very outdated and no longer getting security updates, exposing your site to attack. Please contact your host and get an upgrade to %2$s, which is the version WordPress recommends. If that\'s not possible, your site will run with version %3$s or newer.' ),
+					__( 'Your version of PHP, %1$s, is very outdated and no longer getting security updates, exposing your site to attack. Please contact your host and get an upgrade to %2$s, which is the version WordPress recommends. If that\'s not possible, your site will run with version %3$s or newer.' ),
 					PHP_VERSION,
 					HEALTH_CHECK_PHP_REC_VERSION,
 					HEALTH_CHECK_PHP_MIN_VERSION
@@ -631,21 +631,21 @@ class WP_Site_Health {
 		} elseif ( ! $this->php_supported_version_check ) {
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'Your PHP version should be updated' );
+			$result['label'] = __( 'Your PHP version should be updated' );
 
 			$result['actions'] = sprintf(
 				'<a href="%s">%s</a>',
 				esc_url(
 					_x( 'https://wordpress.org/support/upgrade-php/', 'The link to the Update PHP page, which may be localized.' )
 				),
-				esc_html__( 'Learn more about why you should update PHP' )
+				__( 'Learn more about why you should update PHP' )
 			);
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %1$s: Current PHP version. %2$s: Recommended PHP version.
-					esc_html__( 'Your version of PHP, %1$s, is very outdated and no longer receiving security updates. Please contact your host for an upgrade. WordPress recommends PHP version %2$s.' ),
+					__( 'Your version of PHP, %1$s, is very outdated and no longer receiving security updates. Please contact your host for an upgrade. WordPress recommends PHP version %2$s.' ),
 					PHP_VERSION,
 					HEALTH_CHECK_PHP_REC_VERSION
 				)
@@ -653,21 +653,21 @@ class WP_Site_Health {
 		} elseif ( ! $this->php_rec_version_check ) {
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'We recommend that you update PHP' );
+			$result['label'] = __( 'We recommend that you update PHP' );
 
 			$result['actions'] = sprintf(
 				'<a href="%s">%s</a>',
 				esc_url(
 					_x( 'https://wordpress.org/support/upgrade-php/', 'The link to the Update PHP page, which may be localized.' )
 				),
-				esc_html__( 'Learn more about why you should update PHP' )
+				__( 'Learn more about why you should update PHP' )
 			);
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %s: Recommended PHP version
-					esc_html__( 'For best performance we recommend using PHP %s or higher.' ),
+					__( 'For best performance we recommend using PHP %s or higher.' ),
 					HEALTH_CHECK_PHP_REC_VERSION
 				)
 			);
@@ -696,7 +696,7 @@ class WP_Site_Health {
 
 	public function get_test_php_extensions() {
 		$result = array(
-			'label'       => esc_html__( 'Required and recommended modules are installed' ),
+			'label'       => __( 'Required and recommended modules are installed' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Performance',
@@ -704,13 +704,13 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p><p>%s</p>',
-				esc_html__( 'PHP modules perform most of the tasks on the server that make your site run.' ),
+				__( 'PHP modules perform most of the tasks on the server that make your site run.' ),
 				sprintf(
 					// translators: %s: Link to the hosting group page about recommended PHP modules.
-					esc_html__( 'The Hosting team maintains a list of those modules, both recommended and required, in %s.' ),
+					__( 'The Hosting team maintains a list of those modules, both recommended and required, in %s.' ),
 					sprintf(
 						'<a href="https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions">%s</a>',
-						esc_html__( 'the team handbook' )
+						__( 'the team handbook' )
 					)
 				)
 			),
@@ -834,7 +834,7 @@ class WP_Site_Health {
 				$failures[ $library ] = sprintf(
 					'<span class="%s"><span class="screen-reader-text">%s</span></span> %s',
 					( $module['required'] ? 'error' : 'warning' ),
-					( $module['required'] ? esc_html__( 'Error' ) : esc_html__( 'Warning' ) ),
+					( $module['required'] ? __( 'Error' ) : __( 'Warning' ) ),
 					sprintf(
 						// translators: %1$2: If a module is required or recommended. %2$s: The module name.
 						__( 'The %1$s module, %2$s, is not installed, or has been disabled.' ),
@@ -860,10 +860,10 @@ class WP_Site_Health {
 
 		if ( 'good' !== $result['status'] ) {
 			if ( 'recommended' === $result['status'] ) {
-				$result['label'] = esc_html__( 'One or more recommended modules are missing' );
+				$result['label'] = __( 'One or more recommended modules are missing' );
 			}
 			if ( 'critical' === $result['status'] ) {
-				$result['label'] = esc_html__( 'One or more required modules are missing' );
+				$result['label'] = __( 'One or more required modules are missing' );
 			}
 
 			$result['description'] .= sprintf(
@@ -877,7 +877,7 @@ class WP_Site_Health {
 
 	public function get_test_sql_server() {
 		$result = array(
-			'label'       => esc_html__( 'SQL server is up to date' ),
+			'label'       => __( 'SQL server is up to date' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Security',
@@ -885,7 +885,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'The SQL server is the database where WordPress stores all your site’s content and settings' )
+				__( 'The SQL server is the database where WordPress stores all your site’s content and settings' )
 			),
 			'actions'     => '',
 			'test'        => 'sql_server',
@@ -896,13 +896,13 @@ class WP_Site_Health {
 		if ( ! $this->mysql_rec_version_check ) {
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'Outdated SQL server' );
+			$result['label'] = __( 'Outdated SQL server' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %1$s: The database engine in use (MySQL or MariaDB). %2$s: Database server recommended version number.
-					esc_html__( 'For optimal performance and security reasons, we recommend running %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
+					__( 'For optimal performance and security reasons, we recommend running %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
 					( $this->mariadb ? 'MariaDB' : 'MySQL' ),
 					$this->health_check_mysql_rec_version
 				)
@@ -912,13 +912,13 @@ class WP_Site_Health {
 		if ( ! $this->mysql_min_version_check ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'Severely outdated SQL server' );
+			$result['label'] = __( 'Severely outdated SQL server' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %1$s: The database engine in use (MySQL or MariaDB). %2$s: Database server minimum version number.
-					esc_html__( 'WordPress requires %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
+					__( 'WordPress requires %1$s version %2$s or higher. Contact your web hosting company to correct this.' ),
 					( $this->mariadb ? 'MariaDB' : 'MySQL' ),
 					HEALTH_CHECK_MYSQL_MIN_VERSION
 				)
@@ -949,7 +949,7 @@ class WP_Site_Health {
 		global $wpdb;
 
 		$result = array(
-			'label'       => esc_html__( 'UTF8MB4 is supported' ),
+			'label'       => __( 'UTF8MB4 is supported' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Performance',
@@ -957,7 +957,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'UTF8MB4 is a database storage attribute that makes sure your site can store non-English text and other strings (for instance emoticons) without unexpected problems.' )
+				__( 'UTF8MB4 is a database storage attribute that makes sure your site can store non-English text and other strings (for instance emoticons) without unexpected problems.' )
 			),
 			'actions'     => '',
 			'test'        => 'utf8mb4_support',
@@ -967,13 +967,13 @@ class WP_Site_Health {
 			if ( version_compare( $this->mysql_server_version, '5.5.3', '<' ) ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'UTF8MB4 requires an SQL update' );
+				$result['label'] = __( 'UTF8MB4 requires an SQL update' );
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
 						// translators: %1$s: Database engine name. %2$s: Version number.
-						esc_html__( 'WordPress\' utf8mb4 support requires %1$s version %2$s or greater' ),
+						__( 'WordPress\' utf8mb4 support requires %1$s version %2$s or greater' ),
 						'MySQL',
 						'5.5.3'
 					)
@@ -981,20 +981,20 @@ class WP_Site_Health {
 			} else {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
-					esc_html__( 'Your MySQL version supports utf8mb4' )
+					__( 'Your MySQL version supports utf8mb4' )
 				);
 			}
 		} else { // MariaDB introduced utf8mb4 support in 5.5.0
 			if ( version_compare( $this->mysql_server_version, '5.5.0', '<' ) ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'UTF8MB4 requires an SQL update' );
+				$result['label'] = __( 'UTF8MB4 requires an SQL update' );
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
 						// translators: %1$s: Database engine name. %2$s: Version number.
-						esc_html__( 'WordPress\' utf8mb4 support requires %1$s version %2$s or greater' ),
+						__( 'WordPress\' utf8mb4 support requires %1$s version %2$s or greater' ),
 						'MariaDB',
 						'5.5.0'
 					)
@@ -1002,7 +1002,7 @@ class WP_Site_Health {
 			} else {
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
-					esc_html__( 'Your MariaDB version supports utf8mb4' )
+					__( 'Your MariaDB version supports utf8mb4' )
 				);
 			}
 		}
@@ -1024,13 +1024,13 @@ class WP_Site_Health {
 			if ( version_compare( $mysql_client_version, '5.0.9', '<' ) ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'UTF8MB4 requires a newer client library' );
+				$result['label'] = __( 'UTF8MB4 requires a newer client library' );
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
 					sprintf(
 						// translators: %1$s: Name of the library, %2$s: Number of version.
-						esc_html__( 'WordPress\' utf8mb4 support requires MySQL client library (%1$s) version %2$s or newer.' ),
+						__( 'WordPress\' utf8mb4 support requires MySQL client library (%1$s) version %2$s or newer.' ),
 						'mysqlnd',
 						'5.0.9'
 					)
@@ -1040,7 +1040,7 @@ class WP_Site_Health {
 			if ( version_compare( $mysql_client_version, '5.5.3', '<' ) ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'UTF8MB4 requires a newer client library' );
+				$result['label'] = __( 'UTF8MB4 requires a newer client library' );
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
@@ -1059,7 +1059,7 @@ class WP_Site_Health {
 
 	public function get_test_dotorg_communication() {
 		$result = array(
-			'label'       => esc_html__( 'Can communicate with WordPress.org' ),
+			'label'       => __( 'Can communicate with WordPress.org' ),
 			'status'      => '',
 			'badge'       => array(
 				'label' => 'Security',
@@ -1067,7 +1067,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Communicating with the WordPress servers is used to check for new versions, Communicating with the WordPress servers is used to check for new versions, and to both install and update WordPress core, themes or plugins.' )
+				__( 'Communicating with the WordPress servers is used to check for new versions, Communicating with the WordPress servers is used to check for new versions, and to both install and update WordPress core, themes or plugins.' )
 			),
 			'actions'     => '',
 			'test'        => 'dotorg_communication',
@@ -1084,13 +1084,13 @@ class WP_Site_Health {
 		} else {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'Could not reach WordPress.org' );
+			$result['label'] = __( 'Could not reach WordPress.org' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					'<span class="error"><span class="screen-reader-text">%s</span></span> %s',
-					esc_html__( 'Error' ),
+					__( 'Error' ),
 					sprintf(
 						// translators: %1$s: The IP address WordPress.org resolves to. %2$s: The error returned by the lookup.
 						__( 'Your site is unable to reach WordPress.org at %1$s, and returned the error: %2$s' ),
@@ -1110,7 +1110,7 @@ class WP_Site_Health {
 
 	public function get_test_is_in_debug_mode() {
 		$result = array(
-			'label'       => esc_html__( 'Your site is not set to output debug information' ),
+			'label'       => __( 'Your site is not set to output debug information' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Security',
@@ -1118,7 +1118,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Debug mode is often enabled to gather more details about an error or site failure, but may contain sensitive information which should not be available on a publicly available website.' )
+				__( 'Debug mode is often enabled to gather more details about an error or site failure, but may contain sensitive information which should not be available on a publicly available website.' )
 			),
 			'actions'     => '',
 			'test'        => 'is_in_debug_mode',
@@ -1126,24 +1126,24 @@ class WP_Site_Health {
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-				$result['label'] = esc_html__( 'Your site is set to log errors to a potentially public file.' );
+				$result['label'] = __( 'Your site is set to log errors to a potentially public file.' );
 
 				$result['status'] = 'critical';
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
-					esc_html__( 'The value, WP_DEBUG_LOG, has been added to this websites configuration file. This means any errors on the site will be written to a file which is potentially available to normal users.' )
+					__( 'The value, WP_DEBUG_LOG, has been added to this websites configuration file. This means any errors on the site will be written to a file which is potentially available to normal users.' )
 				);
 			}
 
 			if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
-				$result['label'] = esc_html__( 'Your site is set to display errors to site visitors.' );
+				$result['label'] = __( 'Your site is set to display errors to site visitors.' );
 
 				$result['status'] = 'critical';
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
-					esc_html__( 'The value, WP_DEBUG_DISPLAY, has either been added to your configuration file, or left with its default value. This will make errors display on the front end of your site.' )
+					__( 'The value, WP_DEBUG_DISPLAY, has either been added to your configuration file, or left with its default value. This will make errors display on the front end of your site.' )
 				);
 			}
 		}
@@ -1175,7 +1175,7 @@ class WP_Site_Health {
 			if ( 'https' !== substr( $wp_url, 0, 5 ) || 'https' !== substr( $site_url, 0, 5 ) ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'Only parts of your site are using HTTPS' );
+				$result['label'] = __( 'Only parts of your site are using HTTPS' );
 
 				$result['description'] = sprintf(
 					'<p>%s</p>',
@@ -1189,21 +1189,21 @@ class WP_Site_Health {
 				$result['actions'] = sprintf(
 					'<a href="%s">%s</a>',
 					esc_url( admin_url( 'options-general.php' ) ),
-					esc_html__( 'Update your site addresses' )
+					__( 'Update your site addresses' )
 				);
 			} else {
 				$result['status'] = 'good';
 
-				$result['label'] = esc_html__( 'Your website is using an active HTTPS connection.' );
+				$result['label'] = __( 'Your website is using an active HTTPS connection.' );
 			}
 		} else {
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'Your site does not use HTTPS' );
+			$result['label'] = __( 'Your site does not use HTTPS' );
 
 			$result['description'] = sprintf(
 				'<p>%s</p>',
-				esc_html__( 'An HTTPS connection is needed for many features on the web today, it also gains the trust of your visitors by helping to protecting their online privacy.' )
+				__( 'An HTTPS connection is needed for many features on the web today, it also gains the trust of your visitors by helping to protecting their online privacy.' )
 			);
 
 			$result['actions'] = sprintf(
@@ -1212,7 +1212,7 @@ class WP_Site_Health {
 					// translators: Website for explaining HTTPS and why it should be used.
 					__( 'https://www.cloudflare.com/learning/security/why-use-https/' )
 				),
-				esc_html__( 'Read more about why you should use HTTPS' )
+				__( 'Read more about why you should use HTTPS' )
 			);
 		}
 
@@ -1229,7 +1229,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Securely communicating between servers are needed for transactions such as fetching files, conducting sales on store sites, and much more.' )
+				__( 'Securely communicating between servers are needed for transactions such as fetching files, conducting sales on store sites, and much more.' )
 			),
 			'actions'     => '',
 			'test'        => 'ssl_support',
@@ -1240,15 +1240,15 @@ class WP_Site_Health {
 		if ( $supports_https ) {
 			$result['status'] = 'good';
 
-			$result['label'] = esc_html__( 'Your site can communicate securely with other services.' );
+			$result['label'] = __( 'Your site can communicate securely with other services.' );
 		} else {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'Your site is unable to communicate securely with other services.' );
+			$result['label'] = __( 'Your site is unable to communicate securely with other services.' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Talk to your web host about OpenSSL support for PHP' )
+				__( 'Talk to your web host about OpenSSL support for PHP' )
 			);
 		}
 
@@ -1257,7 +1257,7 @@ class WP_Site_Health {
 
 	public function get_test_scheduled_events() {
 		$result = array(
-			'label'       => esc_html__( 'Scheduled events are running' ),
+			'label'       => __( 'Scheduled events are running' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Performance',
@@ -1265,7 +1265,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Scheduled events are what periodically looks for updates to plugins, themes and WordPress it self. It is also what makes sure scheduled posts are published on time. It may also be used by various plugins to make sure that planned actions are executed.' )
+				__( 'Scheduled events are what periodically looks for updates to plugins, themes and WordPress it self. It is also what makes sure scheduled posts are published on time. It may also be used by various plugins to make sure that planned actions are executed.' )
 			),
 			'actions'     => '',
 			'test'        => 'scheduled_events',
@@ -1276,13 +1276,13 @@ class WP_Site_Health {
 		if ( is_wp_error( $this->has_missed_cron() ) ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'It was not possible to check your scheduled events' );
+			$result['label'] = __( 'It was not possible to check your scheduled events' );
 
 			$result['description'] = sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %s: The error message returned while from the cron scheduler.
-					esc_html__( 'While trying to test your sites scheduled events, the following error was returned: %s' ),
+					__( 'While trying to test your sites scheduled events, the following error was returned: %s' ),
 					$this->has_missed_cron()->get_error_message()
 				)
 			);
@@ -1290,13 +1290,13 @@ class WP_Site_Health {
 			if ( $this->has_missed_cron() ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'A scheduled event has failed' );
+				$result['label'] = __( 'A scheduled event has failed' );
 
 				$result['description'] = sprintf(
 					'<p>%s</p>',
 					sprintf(
 						// translators: %s: The name of the failed cron event.
-						esc_html__( 'The scheduled event, %s, failed to run. Your site still works, but this may indicate that scheduling posts or automated updates may not work as intended.' ),
+						__( 'The scheduled event, %s, failed to run. Your site still works, but this may indicate that scheduling posts or automated updates may not work as intended.' ),
 						$this->last_missed_cron
 					)
 				);
@@ -1308,7 +1308,7 @@ class WP_Site_Health {
 
 	public function get_test_background_updates() {
 		$result = array(
-			'label'       => esc_html__( 'Background updates are working' ),
+			'label'       => __( 'Background updates are working' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Security',
@@ -1316,7 +1316,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Background updates ensure that WordPress can auto-update if a security update is released for the version you are currently using.' )
+				__( 'Background updates ensure that WordPress can auto-update if a security update is released for the version you are currently using.' )
 			),
 			'actions'     => '',
 			'test'        => 'background_updates',
@@ -1332,22 +1332,22 @@ class WP_Site_Health {
 		$output = '<ul>';
 
 		foreach ( $tests as $test ) {
-			$severity_string = esc_html__( 'Passed' );
+			$severity_string = __( 'Passed' );
 
 			if ( 'fail' === $test->severity ) {
-				$result['label'] = esc_html__( 'Background updates are not working as expected' );
+				$result['label'] = __( 'Background updates are not working as expected' );
 
 				$result['status'] = 'critical';
 
-				$severity_string = esc_html__( 'Error' );
+				$severity_string = __( 'Error' );
 			}
 
 			if ( 'warning' === $test->severity && 'good' === $result['status'] ) {
-				$result['label'] = esc_html__( 'Background updates may not be working properly' );
+				$result['label'] = __( 'Background updates may not be working properly' );
 
 				$result['status'] = 'recommended';
 
-				$severity_string = esc_html__( 'Warning' );
+				$severity_string = __( 'Warning' );
 			}
 
 			$output .= sprintf(
@@ -1376,7 +1376,7 @@ class WP_Site_Health {
 
 	public function get_test_loopback_requests() {
 		$result = array(
-			'label'       => esc_html__( 'Your site can perform loopback requests' ),
+			'label'       => __( 'Your site can perform loopback requests' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Performance',
@@ -1384,7 +1384,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'Loopback requests are used to run scheduled events, and are also used by the built-in editors for themes and plugins to verify code stability.' )
+				__( 'Loopback requests are used to run scheduled events, and are also used by the built-in editors for themes and plugins to verify code stability.' )
 			),
 			'actions'     => '',
 			'test'        => 'loopback_requests',
@@ -1395,7 +1395,7 @@ class WP_Site_Health {
 		$result['status'] = $check_loopback->status;
 
 		if ( 'good' !== $check_loopback->status ) {
-			$result['label'] = esc_html__( 'Your site could not complete a loopback request' );
+			$result['label'] = __( 'Your site could not complete a loopback request' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
@@ -1412,7 +1412,7 @@ class WP_Site_Health {
 
 	public function get_test_http_requests() {
 		$result = array(
-			'label'       => esc_html__( 'HTTP requests seem to be working as expected' ),
+			'label'       => __( 'HTTP requests seem to be working as expected' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Performance',
@@ -1420,7 +1420,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'It is possible for site maintainers to block all, or some, communication to other sites and services. If set up incorrectly, this may prevent plugins and themes from working as intended.' )
+				__( 'It is possible for site maintainers to block all, or some, communication to other sites and services. If set up incorrectly, this may prevent plugins and themes from working as intended.' )
 			),
 			'actions'     => '',
 			'test'        => 'http_requests',
@@ -1440,24 +1440,24 @@ class WP_Site_Health {
 		if ( $blocked && 0 === sizeof( $hosts ) ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'HTTP requests are blocked' );
+			$result['label'] = __( 'HTTP requests are blocked' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
-				esc_html__( 'HTTP requests have been blocked by the WP_HTTP_BLOCK_EXTERNAL constant, with no allowed hosts.' )
+				__( 'HTTP requests have been blocked by the WP_HTTP_BLOCK_EXTERNAL constant, with no allowed hosts.' )
 			);
 		}
 
 		if ( $blocked && 0 < sizeof( $hosts ) ) {
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'HTTP requests are partially blocked' );
+			$result['label'] = __( 'HTTP requests are partially blocked' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %s: List of hostnames whitelisted.
-					esc_html__( 'HTTP requests have been blocked by the WP_HTTP_BLOCK_EXTERNAL constant, with some hosts whitelisted: %s.' ),
+					__( 'HTTP requests have been blocked by the WP_HTTP_BLOCK_EXTERNAL constant, with some hosts whitelisted: %s.' ),
 					implode( ',', $hosts )
 				)
 			);
@@ -1468,7 +1468,7 @@ class WP_Site_Health {
 
 	public function get_test_rest_availability() {
 		$result = array(
-			'label'       => esc_html__( 'The REST API is available' ),
+			'label'       => __( 'The REST API is available' ),
 			'status'      => 'good',
 			'badge'       => array(
 				'label' => 'Performance',
@@ -1476,7 +1476,7 @@ class WP_Site_Health {
 			),
 			'description' => sprintf(
 				'<p>%s</p>',
-				esc_html__( 'The REST API is one way WordPress, and other applications, communicate with the server. One example is the block editor screen, which relies on this to display, and save, your posts and pages.' )
+				__( 'The REST API is one way WordPress, and other applications, communicate with the server. One example is the block editor screen, which relies on this to display, and save, your posts and pages.' )
 			),
 			'actions'     => '',
 			'test'        => 'rest_availability',
@@ -1509,16 +1509,16 @@ class WP_Site_Health {
 		if ( is_wp_error( $r ) ) {
 			$result['status'] = 'critical';
 
-			$result['label'] = esc_html__( 'The REST API encountered an error' );
+			$result['label'] = __( 'The REST API encountered an error' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					'%s<br>%s',
-					esc_html__( 'The REST API request failed due to an error.' ),
+					__( 'The REST API request failed due to an error.' ),
 					sprintf(
 						// translators: %1$d: The HTTP response code. %2$s: The error message returned.
-						esc_html__( 'Error encountered: (%1$d) %2$s' ),
+						__( 'Error encountered: (%1$d) %2$s' ),
 						wp_remote_retrieve_response_code( $r ),
 						$r->get_error_message()
 					)
@@ -1527,13 +1527,13 @@ class WP_Site_Health {
 		} elseif ( 200 !== wp_remote_retrieve_response_code( $r ) ) {
 			$result['status'] = 'recommended';
 
-			$result['label'] = esc_html__( 'The REST API encountered an unexpected result' );
+			$result['label'] = __( 'The REST API encountered an unexpected result' );
 
 			$result['description'] .= sprintf(
 				'<p>%s</p>',
 				sprintf(
 					// translators: %1$d: The HTTP response code returned. %2$s: The error message returned.
-					esc_html__( 'The REST API call gave the following unexpected result: (%1$d) %2$s.' ),
+					__( 'The REST API call gave the following unexpected result: (%1$d) %2$s.' ),
 					wp_remote_retrieve_response_code( $r ),
 					wp_remote_retrieve_body( $r )
 				)
@@ -1544,11 +1544,11 @@ class WP_Site_Health {
 			if ( false !== $json && ! isset( $json['capabilities'] ) ) {
 				$result['status'] = 'recommended';
 
-				$result['label'] = esc_html__( 'The REST API did not behave correctly' );
+				$result['label'] = __( 'The REST API did not behave correctly' );
 
 				$result['description'] .= sprintf(
 					'<p>%s</p>',
-					esc_html__( 'The REST API did not process the \'context\' query parameter correctly.' )
+					__( 'The REST API did not process the \'context\' query parameter correctly.' )
 				);
 			}
 		}
@@ -1761,10 +1761,10 @@ class WP_Site_Health {
 				'status'  => 'critical',
 				'message' => sprintf(
 					'%s<br>%s',
-					esc_html__( 'The loopback request to your site failed, this means features relying on them are not currently working as expected.' ),
+					__( 'The loopback request to your site failed, this means features relying on them are not currently working as expected.' ),
 					sprintf(
 						// translators: %1$d: The HTTP response code. %2$s: The error message returned.
-						esc_html__( 'Error encountered: (%1$d) %2$s' ),
+						__( 'Error encountered: (%1$d) %2$s' ),
 						wp_remote_retrieve_response_code( $r ),
 						$r->get_error_message()
 					)
@@ -1777,7 +1777,7 @@ class WP_Site_Health {
 				'status'  => 'recommended',
 				'message' => sprintf(
 					// translators: %d: The HTTP response code returned.
-					esc_html__( 'The loopback request returned an unexpected http status code, %d, it was not possible to determine if this will prevent features from working as expected.' ),
+					__( 'The loopback request returned an unexpected http status code, %d, it was not possible to determine if this will prevent features from working as expected.' ),
 					wp_remote_retrieve_response_code( $r )
 				),
 			);
