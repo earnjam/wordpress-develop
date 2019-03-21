@@ -22,6 +22,12 @@ body.site-health .wrap h2 {
 	}
 }
 
+@media all and (max-width: 960px) {
+	body.site-health .wrap p {
+		padding: 0 0.5rem;
+	}
+}
+
 body.site-health ul li,
 body.site-health ol li {
 	line-height: 1.5;
@@ -319,7 +325,15 @@ body .health-check-accordion .health-check-accordion-trigger {
 	width: 100%;
 }
 
-body .health-check-accordion .health-check-accordion-trigger:hover, body .health-check-accordion .health-check-accordion-trigger:focus, body .health-check-accordion .health-check-accordion-trigger:active {
+@media all and (max-width: 600px) {
+	body .health-check-accordion .health-check-accordion-trigger {
+		padding: 0.8em 1.5em;
+	}
+}
+
+body .health-check-accordion .health-check-accordion-trigger:hover,
+body .health-check-accordion .health-check-accordion-trigger:focus,
+body .health-check-accordion .health-check-accordion-trigger:active {
 	background: #dedede;
 }
 
@@ -327,6 +341,12 @@ body .health-check-accordion .health-check-accordion-trigger .title {
 	display: inline-block;
 	pointer-events: none;
 	font-weight: 600;
+}
+
+@media all and (max-width: 600px) {
+	body .health-check-accordion .health-check-accordion-trigger .title {
+		margin-right: 0.5rem;
+	}
 }
 
 body .health-check-accordion .health-check-accordion-trigger .icon {
@@ -348,6 +368,12 @@ body .health-check-accordion .health-check-accordion-trigger .badge {
 	color: #000;
 	font-weight: 600;
 	margin: 0 0.5rem;
+}
+
+@media all and (max-width: 600px) {
+	body .health-check-accordion .health-check-accordion-trigger .badge {
+		margin: 0.2rem 0;
+	}
 }
 
 body .health-check-accordion .health-check-accordion-trigger .badge.blue {
