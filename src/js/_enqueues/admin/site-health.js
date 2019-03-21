@@ -74,29 +74,11 @@ jQuery( document ).ready( function( $ ) {
 	});
 
 	function AppendIssue( issue ) {
-		var htmlOutput,
-			issueWrapper,
-			issueCounter;
+		var htmlOutput = _.template( $( '#issue-template' ).html() )( issue ),
+			issueWrapper = $( '#health-check-issues-' + issue.status ),
+			issueCounter = $( '.issue-count', issueWrapper );
 
 		SiteHealth.site_status.issues[ issue.status ]++;
-
-		issueWrapper = $( '#health-check-issues-' + issue.status );
-
-		issueCounter = $( '.issue-count', issueWrapper );
-
-		htmlOutput = '<dt role="heading" aria-level="4">\n' +
-			'                <button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-' + issue.test + '" id="health-check-accordion-heading-' + issue.test + '" type="button">\n' +
-			'                    <span class="title">\n' +
-			'                        ' + issue.label + '\n' +
-			'                    </span>\n' +
-			'                    <span class="badge ' + issue.badge.color + '">' + issue.badge.label + '</span>\n' +
-			'                    <span class="icon"></span>\n' +
-			'                </button>\n' +
-			'            </dt>\n' +
-			'            <dd id="health-check-accordion-block-' + issue.test + '" aria-labelledby="health-check-accordion-heading-' + issue.test + '" role="region" class="health-check-accordion-panel" hidden="hidden">\n' +
-			'                ' + issue.description + '\n' +
-			'                <div class="actions"><p>' + issue.actions + '</p></div>' +
-			'            </dd>';
 
 		issueCounter.text( SiteHealth.site_status.issues[ issue.status ]);
 		$( '.issues', '#health-check-issues-' + issue.status ).append( htmlOutput );

@@ -111,5 +111,21 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 </div>
 
+<script id="issue-template" type="text/template">
+	<dt role="heading" aria-level="4">
+		<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<%= test %>" id="health-check-accordion-heading-<%= test %>" type="button">
+			<span class="title"><%= label %></span>
+			<span class="badge <%= badge.color %>"><%= badge.label %></span>
+			<span class="icon"></span>
+		</button>
+	</dt>
+	<dd id="health-check-accordion-block-<%= test %>" aria-labelledby="health-check-accordion-heading-<%= test %>" role="region" class="health-check-accordion-panel" hidden="hidden">
+		<%= description %>
+		<div class="actions">
+			<p><%= actions %></p>
+		</div>
+	</dd>
+</script>
+
 <?php
 include( ABSPATH . 'wp-admin/admin-footer.php' );
