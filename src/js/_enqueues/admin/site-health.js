@@ -99,10 +99,6 @@ jQuery( document ).ready( function( $ ) {
 
 		$progressBar.removeClass( 'loading' );
 
-		if ( isNaN( val ) ) {
-			val = 100;
-		}
-
 		r = $circle.attr( 'r' );
 		c = Math.PI * ( r * 2 );
 
