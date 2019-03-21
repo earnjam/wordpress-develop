@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class WP_Site_Health {
-	private $php_min_version_check       = '5.2.4';
+	private $php_min_version_check       = '5.6';
 	private $php_supported_version_check = '5.6';
 	private $php_rec_version_check       = '7.3';
 
@@ -134,7 +134,7 @@ class WP_Site_Health {
 			$this->health_check_mysql_rec_version = '10.0';
 		}
 
-		$this->mysql_min_version_check = version_compare( '5.0', $this->mysql_server_version, '<=' );
+		$this->mysql_min_version_check = version_compare( '5.5', $this->mysql_server_version, '<=' );
 		$this->mysql_rec_version_check = version_compare( $this->health_check_mysql_rec_version, $this->mysql_server_version, '<=' );
 	}
 
