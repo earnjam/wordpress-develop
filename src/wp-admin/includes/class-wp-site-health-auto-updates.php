@@ -13,7 +13,6 @@
 class WP_Site_Health_Auto_Updates {
 	/**
 	 * Health_Check_Auto_Updates constructor.
-
 	 * @return void
 	 */
 	public function __construct() {
@@ -38,7 +37,7 @@ class WP_Site_Health_Auto_Updates {
 		$tests = array();
 
 		foreach ( get_class_methods( $this ) as $method ) {
-			if ( 0 === strpos( $method, 'test_' ) ) {
+			if ( 'test_' !== substr( $method, 0, 5 ) ) {
 				continue;
 			}
 
