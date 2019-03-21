@@ -73,7 +73,7 @@ jQuery( document ).ready( function( $ ) {
 		$( this ).attr( 'aria-expanded', ! goodIssuesWrapper.hasClass( 'hidden' ) );
 	});
 
-	function HCAppendIssue( issue ) {
+	function AppendIssue( issue ) {
 		var htmlOutput,
 			issueWrapper,
 			issueCounter;
@@ -102,7 +102,7 @@ jQuery( document ).ready( function( $ ) {
 		$( '.issues', '#health-check-issues-' + issue.status ).append( htmlOutput );
 	}
 
-	function HCRecalculateProgression() {
+	function RecalculateProgression() {
 		var r, c, pct;
 		var $progressBar = $( '#progressbar' );
 		var $circle = $( '#progressbar svg #bar' );
@@ -196,7 +196,7 @@ jQuery( document ).ready( function( $ ) {
 					ajaxurl,
 					data,
 					function( response ) {
-						HCAppendIssue( response.data );
+						AppendIssue( response.data );
 						maybeRunNextAsyncTest();
 					}
 				);
@@ -206,13 +206,13 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		if ( doCalculation ) {
-			HCRecalculateProgression();
+			RecalculateProgression();
 		}
 	}
 
 	if ( 'undefined' !== typeof SiteHealth ) {
 		if ( 0 === SiteHealth.site_status.direct.length && 0 === SiteHealth.site_status.async.length ) {
-			HCRecalculateProgression();
+			RecalculateProgression();
 		} else {
 			SiteHealth.site_status.issues = {
 				'good': 0,
@@ -223,7 +223,7 @@ jQuery( document ).ready( function( $ ) {
 
 		if ( 0 < SiteHealth.site_status.direct.length ) {
 			$.each( SiteHealth.site_status.direct, function() {
-				HCAppendIssue( this );
+				AppendIssue( this );
 			});
 		}
 
@@ -240,12 +240,12 @@ jQuery( document ).ready( function( $ ) {
 				ajaxurl,
 				data,
 				function( response ) {
-					HCAppendIssue( response.data );
+					AppendIssue( response.data );
 					maybeRunNextAsyncTest();
 				}
 			);
 		} else {
-			HCRecalculateProgression();
+			RecalculateProgression();
 		}
 	}
 
