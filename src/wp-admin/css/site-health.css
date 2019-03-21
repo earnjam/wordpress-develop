@@ -148,11 +148,6 @@ body.site-health .health-check-header .tabs-wrapper .tab.active {
 	font-weight: 600;
 }
 
-body.site-health .health-check-header .tabs-wrapper .tab:focus,
-body.site-health .health-check-header .tabs-wrapper .tab:hover,
-body.site-health .health-check-header .tabs-wrapper .tab:active {
-}
-
 body.site-health .health-check-body {
 	max-width: 800px;
 	width: 100%;
