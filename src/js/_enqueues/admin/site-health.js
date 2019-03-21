@@ -6,8 +6,9 @@
 
 /* global ajaxurl, SiteHealth, wp */
 
-// Debug information copy section.
 jQuery(document).ready(function($) {
+
+	// Debug information copy section.
 	$( '.health-check-copy-field' ).click(function( e ) {
 		var $textarea = $( '#system-information-' + $( this ).data( 'copy-field' ) + '-copy-field' ),
 			$wrapper = $( this ).closest( 'div' );
@@ -39,10 +40,8 @@ jQuery(document).ready(function($) {
 			$( this ).text( SiteHealth.string.site_info_show_copy );
 		}
 	});
-});
 
-// Accordion handling in various areas.
-jQuery(document).ready(function($) {
+	// Accordion handling in various areas.
 	$( '.health-check-accordion' ).on( 'click', '.health-check-accordion-trigger', function() {
 		var isExpanded = ( 'true' === $( this ).attr( 'aria-expanded' ) );
 
@@ -62,10 +61,8 @@ jQuery(document).ready(function($) {
 			$( '.health-check-accordion-trigger', $( this ).closest( 'dt' ).nextAll( 'dt' ) ).focus();
 		}
 	});
-});
 
-// Site Health test handling.
-jQuery( document ).ready(function( $ ) {
+	// Site Health test handling.
 	var data;
 
 	$( '.site-health-view-passed' ).on( 'click', function() {
@@ -250,4 +247,5 @@ jQuery( document ).ready(function( $ ) {
 			HCRecalculateProgression();
 		}
 	}
+
 });
