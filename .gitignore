@@ -70,3 +70,4 @@ wp-tests-config.php
 *.diff
 .svn
 !/src/js/_enqueues/vendor
+package-lock.json
