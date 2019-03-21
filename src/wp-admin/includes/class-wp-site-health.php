@@ -33,10 +33,6 @@ class WP_Site_Health {
 	public function init() {
 		$this->prepare_sql_data();
 
-		add_action( 'wp_ajax_health-check-site-status', array( $this, 'site_status' ) );
-
-		add_action( 'wp_ajax_health-check-site-status-result', array( $this, 'site_status_result' ) );
-
 		add_action( 'wp_loaded', array( $this, 'check_wp_version_check_exists' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueues' ) );
@@ -165,44 +161,6 @@ class WP_Site_Health {
 		echo ( has_filter( 'wp_version_check', 'wp_version_check' ) ? 'yes' : 'no' );
 
 		die();
-	}
-
-	/**
-	 * Update the site status tests.
-	 *
-	 * We call on the results from the site test on other pages,
-	 * so having them in a handy transient is efficient.
-	 */
-	public function site_status_result() {
-		check_ajax_referer( 'health-check-site-status-result' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error();
-		}
-
-		set_transient( 'health-check-site-status-result', wp_json_encode( $_POST['counts'] ) );
-	}
-
-	/**
-	 * Run site tests from AJAX requests.
-	 */
-	public function site_status() {
-		check_ajax_referer( 'health-check-site-status' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error();
-		}
-
-		$function = sprintf(
-			'json_test_%s',
-			$_POST['feature']
-		);
-
-		if ( ! method_exists( $this, $function ) || ! is_callable( array( $this, $function ) ) ) {
-			return;
-		}
-
-		$call = call_user_func( array( $this, $function ) );
 	}
 
 	/**
@@ -1205,13 +1163,6 @@ class WP_Site_Health {
 	}
 
 	/**
-	 * Middleman function for passing AJAX requests on to the direct test runner.
-	 */
-	public function json_test_dotorg_communication() {
-		wp_send_json_success( $this->get_test_dotorg_communication() );
-	}
-
-	/**
 	 * Test if debug information is enabled.
 	 *
 	 * When WP_DEBUG is enabled, errors and information may be disclosed to
@@ -1263,13 +1214,6 @@ class WP_Site_Health {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Middleman function for passing AJAX requests on to the direct test runner.
-	 */
-	public function json_test_is_in_debug_mode() {
-		wp_send_json_success( $this->get_test_is_in_debug_mode() );
 	}
 
 	/**
@@ -1522,13 +1466,6 @@ class WP_Site_Health {
 	}
 
 	/**
-	 * Middleman function for passing AJAX requests on to the direct test runner.
-	 */
-	public function json_test_background_updates() {
-		wp_send_json_success( $this->get_test_background_updates() );
-	}
-
-	/**
 	 * Test if loopbacks work as expected.
 	 *
 	 * A loopback is when WordPress queries it self, for example to start
@@ -1568,13 +1505,6 @@ class WP_Site_Health {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Middleman function for passing AJAX requests on to the direct test runner.
-	 */
-	public function json_test_loopback_requests() {
-		wp_send_json_success( $this->get_test_loopback_requests() );
 	}
 
 	/**

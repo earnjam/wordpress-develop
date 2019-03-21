@@ -157,8 +157,7 @@ jQuery( document ).ready( function( $ ) {
 		if ( 1 <= SiteHealth.site_status.async.length ) {
 			$.each( SiteHealth.site_status.async, function() {
 				var data = {
-					'action': 'health-check-site-status',
-					'feature': this.test,
+					'action': 'health-check-' + this.test.replace( '_', '-' ),
 					'_wpnonce': SiteHealth.nonce.site_status
 				};
 
@@ -207,8 +206,7 @@ jQuery( document ).ready( function( $ ) {
 
 		if ( 0 < SiteHealth.site_status.async.length ) {
 			data = {
-				'action': 'health-check-site-status',
-				'feature': SiteHealth.site_status.async[0].test,
+				'action': 'health-check-' + SiteHealth.site_status.async[0].test.replace( '_', '-' ),
 				'_wpnonce': SiteHealth.nonce.site_status
 			};
 

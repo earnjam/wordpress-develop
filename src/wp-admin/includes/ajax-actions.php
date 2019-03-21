@@ -4854,7 +4854,7 @@ function wp_ajax_wp_privacy_erase_personal_data() {
 	wp_send_json_success( $response );
 }
 
-function wp_ajax_health_check_site_status() {
+function wp_ajax_health_check_dotorg_communication() {
 	check_ajax_referer( 'health-check-site-status' );
 
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -4866,17 +4866,53 @@ function wp_ajax_health_check_site_status() {
 	}
 
 	$site_health = new WP_Site_Health();
+	wp_send_json_success( $site_health->get_test_dotorg_communication() );
+}
 
-	$function = sprintf(
-		'json_test_%s',
-		$_POST['feature']
-	);
+function wp_ajax_health_check_is_in_debug_mode() {
+	wp_verify_nonce( 'health-check-site-status' );
 
-	if ( ! method_exists( $site_health, $function ) || ! is_callable( array( $site_health, $function ) ) ) {
-		return;
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error();
 	}
 
-	call_user_func( array( $site_health, $function ) );
+	if ( ! class_exists( 'WP_Site_Health' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+	}
+
+	$site_health = new WP_Site_Health();
+	wp_send_json_success( $site_health->get_test_is_in_debug_mode() );
+}
+
+function wp_ajax_health_check_background_updates() {
+	check_ajax_referer( 'health-check-site-status' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error();
+	}
+
+	if ( ! class_exists( 'WP_Site_Health' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+	}
+
+	$site_health = new WP_Site_Health();
+	wp_send_json_success( $site_health->get_test_background_updates() );
+}
+
+
+function wp_ajax_health_check_loopback_requests() {
+	check_ajax_referer( 'health-check-site-status' );
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error();
+	}
+
+	if ( ! class_exists( 'WP_Site_Health' ) ) {
+		require_once( ABSPATH . 'wp-admin/includes/class-wp-site-health.php' );
+	}
+
+	$site_health = new WP_Site_Health();
+	wp_send_json_success( $site_health->get_test_loopback_requests() );
 }
 
 function wp_ajax_health_check_site_status_result() {
