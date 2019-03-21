@@ -7,11 +7,6 @@
  * @since 5.2.0
  */
 
-// Make sure the file is not directly accessible.
-if ( ! defined( 'ABSPATH' ) ) {
-	die( 'We\'re sorry, but you can not directly access this file.' );
-}
-
 /**
  * Class Site_Health_Auto_Updates
  */

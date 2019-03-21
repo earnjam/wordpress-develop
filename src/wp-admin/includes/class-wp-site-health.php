@@ -7,11 +7,6 @@
  * @since 5.2.0
  */
 
-// Make sure the file is not directly accessible.
-if ( ! defined( 'ABSPATH' ) ) {
-	die( 'We\'re sorry, but you can not directly access this file.' );
-}
-
 class WP_Site_Health {
 	private $php_min_version_check       = '5.6';
 	private $php_supported_version_check = '5.6';
