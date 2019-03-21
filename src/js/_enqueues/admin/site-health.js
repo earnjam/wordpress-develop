@@ -6,10 +6,12 @@
 
 /* global ajaxurl, SiteHealth, wp */
 
-jQuery(document).ready(function($) {
+jQuery( document ).ready( function( $ ) {
+
+	var data;
 
 	// Debug information copy section.
-	$( '.health-check-copy-field' ).click(function( e ) {
+	$( '.health-check-copy-field' ).click( function( e ) {
 		var $textarea = $( '#system-information-' + $( this ).data( 'copy-field' ) + '-copy-field' ),
 			$wrapper = $( this ).closest( 'div' );
 
@@ -25,7 +27,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	$( '.health-check-toggle-copy-section' ).click(function( e ) {
+	$( '.health-check-toggle-copy-section' ).click( function( e ) {
 		var $copySection = $( '.system-information-copy-wrapper' );
 
 		e.preventDefault();
@@ -63,7 +65,6 @@ jQuery(document).ready(function($) {
 	});
 
 	// Site Health test handling.
-	var data;
 
 	$( '.site-health-view-passed' ).on( 'click', function() {
 		var goodIssuesWrapper = $( '#health-check-issues-good' );
@@ -97,7 +98,7 @@ jQuery(document).ready(function($) {
 			'                <div class="actions"><p>' + issue.actions + '</p></div>' +
 			'            </dd>';
 
-		issueCounter.text( SiteHealth.site_status.issues[ issue.status ] );
+		issueCounter.text( SiteHealth.site_status.issues[ issue.status ]);
 		$( '.issues', '#health-check-issues-' + issue.status ).append( htmlOutput );
 	}
 
@@ -123,30 +124,30 @@ jQuery(document).ready(function($) {
 		r = $circle.attr( 'r' );
 		c = Math.PI * ( r * 2 );
 
-		if ( val < 0 ) {
+		if ( 0 > val ) {
 			val = 0;
 		}
-		if ( val > 100 ) {
+		if ( 100 < val ) {
 			val = 100;
 		}
 
 		pct = ( ( 100 - val ) / 100 ) * c;
 
-		$circle.css( { strokeDashoffset: pct } );
+		$circle.css({ strokeDashoffset: pct });
 
-		if ( parseInt( SiteHealth.site_status.issues.critical, 0 ) < 1 ) {
+		if ( 1 > parseInt( SiteHealth.site_status.issues.critical, 0 ) ) {
 			$( '#health-check-issues-critical' ).addClass( 'hidden' );
 		}
 
-		if ( parseInt( SiteHealth.site_status.issues.recommended, 0 ) < 1 ) {
+		if ( 1 > parseInt( SiteHealth.site_status.issues.recommended, 0 ) ) {
 			$( '#health-check-issues-recommended' ).addClass( 'hidden' );
 		}
 
-		if ( val >= 50 ) {
+		if ( 50 <= val ) {
 			$circle.addClass( 'orange' ).removeClass( 'red' );
 		}
 
-		if ( val >= 90 ) {
+		if ( 90 <= val ) {
 			$circle.addClass( 'green' ).removeClass( 'orange' );
 		}
 
@@ -175,7 +176,7 @@ jQuery(document).ready(function($) {
 	function maybeRunNextAsyncTest() {
 		var doCalculation = true;
 
-		if ( SiteHealth.site_status.async.length >= 1 ) {
+		if ( 1 <= SiteHealth.site_status.async.length ) {
 			$.each( SiteHealth.site_status.async, function() {
 				var data = {
 					'action': 'health-check-site-status',
@@ -201,7 +202,7 @@ jQuery(document).ready(function($) {
 				);
 
 				return false;
-			} );
+			});
 		}
 
 		if ( doCalculation ) {
@@ -220,13 +221,13 @@ jQuery(document).ready(function($) {
 			};
 		}
 
-		if ( SiteHealth.site_status.direct.length > 0 ) {
+		if ( 0 < SiteHealth.site_status.direct.length ) {
 			$.each( SiteHealth.site_status.direct, function() {
 				HCAppendIssue( this );
 			});
 		}
 
-		if ( SiteHealth.site_status.async.length > 0 ) {
+		if ( 0 < SiteHealth.site_status.async.length ) {
 			data = {
 				'action': 'health-check-site-status',
 				'feature': SiteHealth.site_status.async[0].test,
