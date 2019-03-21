@@ -13,7 +13,7 @@
 class WP_Debug_Data {
 
 	/**
-	 * Calls all core functions to check for updates
+	 * Calls all core functions to check for updates.
 	 *
 	 * @return void
 	 */
@@ -25,6 +25,14 @@ class WP_Debug_Data {
 
 	}
 
+	/**
+	 * Static function for generating debug data when required.
+	 *
+	 * @param string $locale Default null. An ISO formatted language code to provide debug translations in.
+	 *
+	 * @return array
+	 * @throws ImagickException
+	 */
 	static function debug_data( $locale = null ) {
 		if ( ! empty( $locale ) ) {
 			// Change the language used for translations
@@ -56,6 +64,7 @@ class WP_Debug_Data {
 			}
 		}
 
+		// Set up the array that holds all debug information.
 		$info = array(
 			'wp-core'             => array(
 				'label'  => __( 'WordPress' ),
@@ -229,6 +238,7 @@ class WP_Debug_Data {
 			),
 		);
 
+		// Conditionally add debug information for multisite setups.
 		if ( is_multisite() ) {
 			$network_query = new WP_Network_Query();
 			$network_ids   = $network_query->query(
@@ -291,7 +301,7 @@ class WP_Debug_Data {
 			);
 		}
 
-		// Get drop-ins.
+		// Get a list of all drop-in replacements.
 		$dropins            = get_dropins();
 		$dropin_description = _get_dropins();
 		foreach ( $dropins as $dropin_key => $dropin ) {
@@ -387,6 +397,7 @@ class WP_Debug_Data {
 			'value' => ( ! function_exists( 'php_sapi_name' ) ? __( 'Unable to determine PHP SAPI' ) : php_sapi_name() ),
 		);
 
+		// Some servers disable `ini_set()` and `ini_get()`, we check this before trying to get configuration values.
 		if ( ! function_exists( 'ini_get' ) ) {
 			$info['wp-server']['fields']['ini_get'] = array(
 				'label' => __( 'Server settings' ),
@@ -468,6 +479,11 @@ class WP_Debug_Data {
 			$extension = null;
 		}
 
+		/*
+		 * Check what database engine is used, this will throw compatibility
+		 * warnings from PHP compatibility testers, but `mysql_*` is
+		 * still valid in PHP 5.6, so we need to account for that.
+		 */
 		if ( method_exists( $wpdb, 'db_version' ) ) {
 			if ( $wpdb->use_mysqli ) {
 				// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysqli_get_server_info
@@ -741,7 +757,7 @@ class WP_Debug_Data {
 	 * Print the formatted variation of the information gathered for debugging, in a manner
 	 * suitable for a text area that can be instantly copied to a forum or support ticket.
 	 *
-	 * @param array $info_array
+	 * @param array $info_array Information gathered from the `WP_Debug_Data::debug_data` function.
 	 *
 	 * @return void
 	 */

@@ -13,9 +13,7 @@
 class Site_Health_Auto_Updates {
 	/**
 	 * Health_Check_Auto_Updates constructor.
-	 *
-	 * @uses Health_Check::init()
-	 *
+
 	 * @return void
 	 */
 	public function __construct() {
@@ -33,10 +31,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Run tests to determine if auto-updates can run.
-	 *
-	 * @uses get_class_methods()
-	 * @uses substr()
-	 * @uses call_user_func()
 	 *
 	 * @return array
 	 */
@@ -69,10 +63,6 @@ class Site_Health_Auto_Updates {
 	/**
 	 * Test if file modifications are possible.
 	 *
-	 * @uses defined()
-	 * @uses sprintf()
-	 * @uses __()
-	 *
 	 * @return array
 	 */
 	function test_constant_FILE_MODS() {
@@ -90,10 +80,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Check if automatic updates are disabled with a constant.
-	 *
-	 * @uses defined()
-	 * @uses sprintf()
-	 * @uses __()
 	 *
 	 * @return array
 	 */
@@ -113,10 +99,6 @@ class Site_Health_Auto_Updates {
 	/**
 	 * Check if automatic core updates are disabled with a constant.
 	 *
-	 * @uses defined()
-	 * @uses sprintf()
-	 * @uses __()
-	 *
 	 * @return array
 	 */
 	function test_constant_WP_AUTO_UPDATE_CORE() {
@@ -134,10 +116,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Check if updates are intercepted by a filter.
-	 *
-	 * @uses has_filter()
-	 * @uses sprintf()
-	 * @uses __()
 	 *
 	 * @return array
 	 */
@@ -179,10 +157,6 @@ class Site_Health_Auto_Updates {
 	/**
 	 * Check if automatic updates are disabled by a filter.
 	 *
-	 * @uses apply_filters()
-	 * @uses sprintf()
-	 * @uses __()
-	 *
 	 * @return array
 	 */
 	function test_filters_automatic_updater_disabled() {
@@ -200,10 +174,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Check if automatic updates have tried to run, but failed, previously.
-	 *
-	 * @uses get_site_option()
-	 * @uses __()
-	 * @uses sprintf()
 	 *
 	 * @return array|bool
 	 */
@@ -248,14 +218,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Check if WordPress is controlled by a VCS (Git, Subversion etc).
-	 *
-	 * @uses dirname()
-	 * @uses array_unique()
-	 * @uses is_dir()
-	 * @uses rtrim()
-	 * @uses apply_filters()
-	 * @uses sprintf()
-	 * @uses __()
 	 *
 	 * @param string $context The path to check from.
 	 *
@@ -326,8 +288,6 @@ class Site_Health_Auto_Updates {
 	/**
 	 * Check if the absolute path is under Version Control.
 	 *
-	 * @uses Health_Check_Auto_Updates::_test_is_vcs_checkout()
-	 *
 	 * @return array
 	 */
 	function test_vcs_ABSPATH() {
@@ -337,10 +297,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Check if we can access files without providing credentials.
-	 *
-	 * @uses Automatic_Upgrader_Skin
-	 * @uses Automatic_Upgrader_Skin::request_filesystem_credentials()
-	 * @uses __()
 	 *
 	 * @return array
 	 */
@@ -366,24 +322,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Check if core files are writeable by the web user/group.
-	 *
-	 * @global $wp_filesystem
-	 *
-	 * @uses Automatic_Upgrader_Skin
-	 * @uses Automatic_Upgrader_Skin::request_filesystem_credentials()
-	 * @uses WP_Filesystem
-	 * @uses WP_Filesystem::method
-	 * @uses get_core_checksums()
-	 * @uses strpos()
-	 * @uses sprintf()
-	 * @uses __()
-	 * @uses array_keys()
-	 * @uses substr()
-	 * @uses file_exists()
-	 * @uses is_writable()
-	 * @uses count()
-	 * @uses array_slice()
-	 * @uses implode()
 	 *
 	 * @return array|bool
 	 */
@@ -462,12 +400,6 @@ class Site_Health_Auto_Updates {
 	/**
 	 * Check if the install is using a development branch and can use nightly packages.
 	 *
-	 * @uses strpos()
-	 * @uses defined()
-	 * @uses sprintf()
-	 * @uses __()
-	 * @uses apply_filters()
-	 *
 	 * @return array|bool
 	 */
 	function test_accepts_dev_updates() {
@@ -502,11 +434,6 @@ class Site_Health_Auto_Updates {
 
 	/**
 	 * Check if the site supports automatic minor updates.
-	 *
-	 * @uses defined()
-	 * @uses sprintf()
-	 * @uses __()
-	 * @uses apply_filters()
 	 *
 	 * @return array
 	 */
