@@ -170,7 +170,7 @@ class WP_Debug_Data {
 						'label' => 'WP_CONTENT_DIR',
 						'value' => ( ! defined( 'WP_CONTENT_DIR' ) ? __( 'Undefined' ) : WP_CONTENT_DIR ),
 					),
-					'WP_PLUGIN_DIR'      => array(
+					'WP_PLUGIN_DIR'       => array(
 						'label' => 'WP_PLUGIN_DIR',
 						'value' => ( ! defined( 'WP_PLUGIN_DIR' ) ? __( 'Undefined' ) : WP_PLUGIN_DIR ),
 					),
