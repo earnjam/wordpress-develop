@@ -1106,7 +1106,7 @@ class WP_Site_Health {
 		);
 
 		$wp_dotorg = wp_remote_get(
-			'https://wordpress.org',
+			'https://api.wordpress.org',
 			array(
 				'timeout' => 10,
 			)
