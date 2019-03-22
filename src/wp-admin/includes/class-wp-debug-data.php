@@ -109,6 +109,7 @@ class WP_Debug_Data {
 			),
 			'wp-dropins'          => array(
 				'label'       => __( 'Drop-ins' ),
+				'show_count'  => true,
 				'description' => __( 'Drop-ins are single files that replace or enhance WordPress features in ways that are not possible for traditional plugins.' ),
 				'fields'      => array(),
 			),
