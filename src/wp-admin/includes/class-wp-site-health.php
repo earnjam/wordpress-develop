@@ -11,10 +11,10 @@ class WP_Site_Health {
 	private $mysql_min_version_check;
 	private $mysql_rec_version_check;
 
-	public  $is_mariadb                     = false;
-	private $mysql_server_version           = '';
+	public  $is_mariadb                          = false;
+	private $mysql_server_version                = '';
 	private $health_check_mysql_required_version = '5.5';
-	private $health_check_mysql_rec_version = '';
+	private $health_check_mysql_rec_version      = '';
 
 	public $schedules;
 	public $crons;
