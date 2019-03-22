@@ -95,7 +95,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</div>
 
 	<div class="view-more">
-		<button type="button" class="button button-link site-health-view-passed" aria-expanded="false">
+		<button type="button" class="button site-health-view-passed" aria-expanded="false">
 			<?php _e( 'Show passed tests' ); ?>
 		</button>
 	</div>
