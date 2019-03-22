@@ -1257,7 +1257,7 @@ class WP_Site_Health {
 				'<a href="%s">%s</a>',
 				esc_url(
 					/* translators: Website for explaining HTTPS and why it should be used. */
-					__( 'https://www.cloudflare.com/learning/security/why-use-https/' )
+					__( 'https://wordpress.org/support/article/why-should-i-use-https/' )
 				),
 				__( 'Read more about why you should use HTTPS.' )
 			);
