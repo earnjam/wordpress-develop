@@ -263,7 +263,8 @@ body.site-health .issues-wrapper:first-of-type {
 }
 
 body.site-health .issues-wrapper {
-	margin-bottom: 4rem;
+	margin-bottom: 3rem;
+	margin-top: 2rem;
 }
 
 body.site-health .site-status-all-clear {
