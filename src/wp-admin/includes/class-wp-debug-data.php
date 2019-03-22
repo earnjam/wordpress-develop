@@ -151,7 +151,7 @@ class WP_Debug_Data {
 			),
 			'wp-constants'        => array(
 				'label'       => __( 'WordPress Constants' ),
-				'description' => __( 'These settings are defined in your wp-config.php file, and alter where and hwow parts of WordPress are loaded..' ),
+				'description' => __( 'These settings are defined in your wp-config.php file, and alter where and how parts of WordPress are loaded..' ),
 				'fields'      => array(
 					'ABSPATH'             => array(
 						'label'   => 'ABSPATH',
