@@ -166,6 +166,14 @@ class WP_Debug_Data {
 						'label' => 'WP_SITEURL',
 						'value' => ( ! defined( 'WP_SITEURL' ) ? __( 'Undefined' ) : WP_SITEURL ),
 					),
+					'WP_CONTENT_DIR'      => array(
+						'label' => 'WP_CONTENT_DIR',
+						'value' => ( ! defined( 'WP_CONTENT_DIR' ) ? __( 'Undefined' ) : WP_CONTENT_DIR ),
+					),
+					'WP_PLUGIN_DIR'      => array(
+						'label' => 'WP_PLUGIN_DIR',
+						'value' => ( ! defined( 'WP_PLUGIN_DIR' ) ? __( 'Undefined' ) : WP_PLUGIN_DIR ),
+					),
 					'WP_DEBUG'            => array(
 						'label' => 'WP_DEBUG',
 						'value' => ( ! defined( 'WP_DEBUG' ) ? __( 'Undefined' ) : ( WP_DEBUG ? __( 'Enabled' ) : __( 'Disabled' ) ) ),
