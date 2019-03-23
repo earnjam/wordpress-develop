@@ -107,6 +107,10 @@ class WP_Debug_Data {
 					),
 				),
 			),
+			'wp-paths-sizes'      => array(
+				'label'  => __( 'Directories and Sizes' ),
+				'fields' => array(),
+			),
 			'wp-dropins'          => array(
 				'label'       => __( 'Drop-ins' ),
 				'show_count'  => true,
@@ -307,6 +311,121 @@ class WP_Debug_Data {
 				),
 			);
 		}
+
+		// Go through the various installation directories and calculate their sizes.
+		$uploads_dir = wp_upload_dir();
+		$inaccurate  = false;
+
+		/*
+		 * We will be using the PHP max execution time to prevent the size calculations
+		 * from causing a timeout. We provide a default value of 30 seconds, as some
+		 * hosts do not allow you to read configuration values.
+		 */
+		$max_execution_time   = 30;
+		$start_execution_time = microtime( true );
+		if ( function_exists( 'ini_get' ) ) {
+			$max_execution_time = ini_get( 'max_execution_time' );
+		}
+
+		$size_directories = array(
+			'wordpress' => array(
+				'path' => ABSPATH,
+				'size' => 0,
+			),
+			'themes' => array(
+				'path' => trailingslashit( get_theme_root() ),
+				'size' => 0,
+			),
+			'plugins' => array(
+				'path' => trailingslashit( WP_PLUGIN_DIR ),
+				'size' => 0,
+			),
+			'uploads' => array(
+				'path' => $uploads_dir['basedir'],
+				'size' => 0,
+			),
+		);
+
+		// Loop over all the directories we want to gather the sizes for.
+		foreach( $size_directories as $size => $attributes ) {
+			/*
+			 * We run a helper function with a RecursiveIterator, which
+			 * may throw an exception if it can't access directories.
+			 *
+			 * If a failure is detected we mark the result as inaccurate.
+			 */
+			try {
+				$calculated_size = WP_Debug_data::get_directory_size( $attributes['path'], $max_execution_time, $start_execution_time );
+
+				$size_directories[ $size ]['size'] = $calculated_size;
+
+				/*
+				 * If the size returned is -1, this means execution has
+				 * exceeded the maximum execution time, also denoting an
+				 * inaccurate value in the end.
+				 */
+				if ( -1 === $calculated_size ) {
+					$inaccurate = true;
+				}
+			} catch ( Exception $e ) {
+				$inaccurate = true;
+			}
+		}
+
+		$size_db = WP_Debug_Data::get_database_size();
+
+		$size_total = $size_directories['wordpress']['size'] + $size_db;
+
+		$info['wp-paths-sizes']['fields'] = array(
+			array(
+				'label' => __( 'Uploads Directory Location' ),
+				'value' => $size_directories['uploads']['path'],
+			),
+			array(
+				'label' => __( 'Uploads Directory Size' ),
+				'value' => ( -1 === $size_directories['uploads']['size'] ? __( 'Unable to determine the size of this directory' ) : size_format( $size_directories['uploads']['size'], 2 ) ),
+			),
+			array(
+				'label' => __( 'Themes Directory Location' ),
+				'value' => $size_directories['themes']['path'],
+			),
+			array(
+				'label' => __( 'Current Theme Directory' ),
+				'value' => get_template_directory(),
+			),
+			array(
+				'label' => __( 'Themes Directory Size' ),
+				'value' => ( -1 === $size_directories['themes']['size'] ? __( 'Unable to determine the size of this directory' ) : size_format( $size_directories['themes']['size'], 2 ) ),
+			),
+			array(
+				'label' => __( 'Plugins Directory Location' ),
+				'value' => $size_directories['plugins']['path'],
+			),
+			array(
+				'label' => __( 'Plugins Directory Size' ),
+				'value' => ( -1 === $size_directories['plugins']['size'] ? __( 'Unable to determine the size of this directory' ) : size_format( $size_directories['plugins']['size'], 2 ) ),
+			),
+			array(
+				'label' => __( 'WordPress Directory Location' ),
+				'value' => $size_directories['wordpress']['path'],
+			),
+			array(
+				'label' => __( 'WordPress Directory Size' ),
+				'value' => size_format( $size_directories['wordpress']['size'], 2 ),
+			),
+			array(
+				'label' => __( 'Database size' ),
+				'value' => size_format( $size_db, 2 ),
+			),
+			array(
+				'label' => __( 'Total installation size' ),
+				'value' => sprintf(
+					'%s%s',
+					size_format( $size_total, 2 ),
+					( false === $inaccurate ? '' : __( '- Some errors, likely caused by invalid permissions, were encountered when determining the size of your installation. This means the values represented may be inaccurate.' ) )
+				),
+			),
+		);
 
 		// Get a list of all drop-in replacements.
 		$dropins            = get_dropins();
@@ -818,13 +937,25 @@ class WP_Debug_Data {
 	 *
 	 * @since 5.2.0
 	 *
-	 * @param string $path The directory to check.
+	 * @param string     $path                 The directory to check.
+	 * @param string|int $max_execution_time   How long a PHP script can run on this host.
+	 * @param float      $start_execution_time When we started executing this section of the script.
+	 *
 	 * @return int The directory size, in bytes.
 	 */
-	public static function get_directory_size( $path ) {
+	public static function get_directory_size( $path, $max_execution_time, $start_execution_time ) {
 		$size = 0;
 
 		foreach ( new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $path ) ) as $file ) {
+			// Check if the maximum execution time is a value considered "infinite".
+			if ( 0 !== $max_execution_time && -1 !== $max_execution_time ) {
+				$runtime = ( microtime( true ) - $start_execution_time );
+
+				// If the script has been running as long, or longer, as it is allowed, return a failure message.
+				if ( $runtime >= $max_execution_time ) {
+					return -1;
+				}
+			}
 			$size += $file->getSize();
 		}
 
