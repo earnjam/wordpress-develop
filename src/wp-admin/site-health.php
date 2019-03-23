@@ -120,9 +120,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		</button>
 	</dt>
 	<dd id="health-check-accordion-block-{{ data.test }}" aria-labelledby="health-check-accordion-heading-{{ data.test }}" role="region" class="health-check-accordion-panel" hidden="hidden">
-		{{ data.description }}
+		{{{ data.description }}}
 		<div class="actions">
-			<p class="button-container">{{ data.actions }}</p>
+			<p class="button-container">{{{ data.actions }}}</p>
 		</div>
 	</dd>
 </script>
