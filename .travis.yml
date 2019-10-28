@@ -63,6 +63,7 @@ before_script:
   - npm --version
   - node --version
   - nvm install 10.13.0
+  - npm install -g grunt-cli
   - |
     if [[ "$NPM_INSTALL" == "true" ]]; then
       npm install
