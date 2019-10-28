@@ -75,6 +75,7 @@ before_script:
       docker-compose run --rm mysql mysql --version
       docker-compose run --rm php php --version
       docker-compose run --rm php php -m
+      docker-compose run --rm php php -i
       docker-compose run --rm phpunit phpunit --version
     fi
   - |
@@ -82,6 +83,8 @@ before_script:
       cp tests/phpunit/includes/object-cache.php build/wp-content/object-cache.php
       # The memcached server needs to start after `npm run env:start`, which sets up the Docker network.
       docker run --name memcached --net $(basename "$PWD")_wpdevnet -d memcached
+      docker-compose run --rm php php -m
+      docker-compose run --rm php php -i
     fi
   - |
     if [[ "$WP_INSTALL" == "true" ]]; then
