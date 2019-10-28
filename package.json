@@ -116,6 +116,12 @@
 		"whatwg-fetch": "3.0.0"
 	},
 	"scripts": {
+		"build": "grunt build",
+		"build:dev": "grunt build --dev",
+		"dev": "grunt watch --dev",
+		"test": "grunt test",
+		"watch": "grunt watch",
+		"grunt": "grunt",
 		"env:start": "node ./tools/local-env/scripts/start.js",
 		"env:stop": "node ./tools/local-env/scripts/docker.js down",
 		"env:clean": "node ./tools/local-env/scripts/docker.js down -v --remove-orphans",
@@ -124,8 +130,6 @@
 		"env:cli": "node ./tools/local-env/scripts/docker.js run cli",
 		"env:logs": "node ./tools/local-env/scripts/docker.js logs",
 		"env:pull": "node ./tools/local-env/scripts/docker.js pull",
-		"test:php": "node ./tools/local-env/scripts/docker.js run --rm phpunit phpunit",
-		"test:e2e": "node ./tests/e2e/run-tests.js",
-		"grunt": "grunt"
+		"test:php": "node ./tools/local-env/scripts/docker.js run --rm phpunit phpunit"
 	}
 }
